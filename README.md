@@ -3,6 +3,11 @@
 ![Lint Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-lint.yml/badge.svg?branch=main) ![Test Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-test.yml/badge.svg?branch=main) ![Matrix Build Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-matrix-build.yml/badge.svg?branch=main)
 
 
+## GitHub Docs
+
+https://docs.github.com/en/actions/get-started/continuous-integration
+
+
 
 ![CI with Actions](assets/ci_with_actions.png)
 

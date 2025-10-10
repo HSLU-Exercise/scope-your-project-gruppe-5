@@ -1,6 +1,6 @@
 # CI with GitHub Actions
 
-![Lint Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-ci.yml/badge.svg?branch=main&job=lint) ![Test Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-ci.yml/badge.svg?branch=main&job=test)
+![Lint Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-lint.yml/badge.svg?branch=main) ![Test Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-test.yml/badge.svg?branch=main)
 
 
 

@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.11', '3.12', '3.13']
+        python-version: ['3.12', '3.13']
         os: [ubuntu-latest, windows-latest]
     steps:
       - name: Checkout code
@@ -26,22 +26,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run Flake8
-        run: flake8 . --max-line-length=88 --extend-ignore=E203 --output-file=flake8-report.txt || echo "Flake8 failed, report generated"
+        run: flake8 . --max-line-length=88 --extend-ignore=E203 > flake8-report.txt 2>&1 || echo "Flake8 failed, report generated"
       - name: Upload Flake8 report as artifact
         uses: actions/upload-artifact@v4
         with:
           name: flake8-report-${{ matrix.python-version }}-${{ matrix.os }}
           path: flake8-report.txt
+          retention-days: 30
 
   test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.11', '3.12', '3.13']
+        python-version: ['3.12', '3.13']
         os: [ubuntu-latest, windows-latest]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -57,3 +58,4 @@ jobs:
         with:
           name: pytest-report-${{ matrix.python-version }}-${{ matrix.os }}
           path: pytest-report.xml
+          retention-days: 30

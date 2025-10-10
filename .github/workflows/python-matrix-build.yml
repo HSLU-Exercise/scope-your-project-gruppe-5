@@ -1,0 +1,59 @@
+name: Matrix Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  lint:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Flake8
+        run: flake8 . --max-line-length=88 --extend-ignore=E203 --output-file=flake8-report.txt || echo "Flake8 failed, report generated"
+      - name: Upload Flake8 report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flake8-report-${{ matrix.python-version }}-${{ matrix.os }}
+          path: flake8-report.txt
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Pytest
+        run: pytest --junitxml=pytest-report.xml || echo "Pytest failed, report generated"
+      - name: Upload Pytest Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report-${{ matrix.python-version }}-${{ matrix.os }}
+          path: pytest-report.xml

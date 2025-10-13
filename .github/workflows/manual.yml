@@ -1,0 +1,23 @@
+name: Manual with inputs
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Zielumgebung"
+        type: choice
+        options: [dev, staging, prod]
+        required: true
+        default: dev
+      dry_run:
+        description: "Nur testen?"
+        type: boolean
+        default: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "env=${{ inputs.env }}"
+          echo "dry_run=${{ inputs.dry_run }}"

@@ -1,8 +1,9 @@
 # CI with GitHub Actions
 
 ![Lint Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-lint.yml/badge.svg?branch=main) ![Test Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-test.yml/badge.svg?branch=main) ![Matrix Build Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-matrix-build.yml/badge.svg?branch=main)
+[![HSLU Logo](https://www.hslu.ch/-/media/campus/common/images/logos/hslu-logo.svg)](https://www.hslu.ch/de-ch/)
+[![Hochschule Luzern](https://img.shields.io/badge/Besuche-HSLU-white)](https://www.hslu.ch/de-ch/)
 
-[![HSLU](https://img.shields.io/badge/Hochschule_Luzern-HSLU-blue?logo=googlechrome&logoColor=white)](https://www.hslu.ch/de-ch/)
 
 
 

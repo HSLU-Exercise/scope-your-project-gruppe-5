@@ -2,7 +2,8 @@
 
 ![Lint Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-lint.yml/badge.svg?branch=main) ![Test Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-test.yml/badge.svg?branch=main) ![Matrix Build Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-matrix-build.yml/badge.svg?branch=main)
 
-[![CI](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml)
+[![HSLU](https://img.shields.io/badge/Hochschule_Luzern-HSLU-blue?logo=googlechrome&logoColor=white)](https://www.hslu.ch/de-ch/)
+
 
 
 ## GitHub Docs

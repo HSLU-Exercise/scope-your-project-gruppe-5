@@ -1,6 +1,6 @@
 name: CI
 on: [schedule, push, workflow_dispatch, pull_request]
-
+- cron: "0 0 2 6 1"
 jobs:
   build-test:
     strategy:

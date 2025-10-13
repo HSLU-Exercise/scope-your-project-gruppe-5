@@ -1,6 +1,6 @@
 # CI with GitHub Actions
 
-![Lint Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-lint.yml/badge.svg?branch=main) ![Test Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-test.yml/badge.svg?branch=main) ![Matrix Build Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-matrix-build.yml/badge.svg?branch=main)[![CI](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/ci.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml) [![Docs](https://img.shields.io/badge/Dokumentation-ansehen-blue)]([https://deine-website.de/docs](https://www.hslu.ch/de-ch/))
+![Lint Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-lint.yml/badge.svg?branch=main) ![Test Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-test.yml/badge.svg?branch=main) ![Matrix Build Status](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-matrix-build.yml/badge.svg?branch=main)[![CI](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/ci.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/ci.yml) [![Docs](https://img.shields.io/badge/HSLU.ch-withe)]([https://deine-website.de/docs](https://www.hslu.ch/de-ch/))
 
 
 

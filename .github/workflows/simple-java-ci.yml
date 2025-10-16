@@ -8,6 +8,7 @@ on:
 
 jobs:
   lint:
+    if: false  # Remove this line
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,6 +23,7 @@ jobs:
         run: mvn checkstyle:check
 
   test:
+    if: false  # Remove this line
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

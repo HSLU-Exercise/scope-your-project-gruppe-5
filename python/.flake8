@@ -2,4 +2,3 @@
 max-line-length = 88
 extend-ignore = E203
 exclude = test_simple_calculator.py
-output-file = flake8-report.txt

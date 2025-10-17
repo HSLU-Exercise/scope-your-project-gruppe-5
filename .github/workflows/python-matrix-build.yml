@@ -1,63 +1,69 @@
-name: Matrix Build
+name: Python Matrix Build
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-
   lint:
-    if: false  # Remove this line
+    if: false # Remove this line to enable job
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.12', '3.13']
         os: [ubuntu-latest, windows-latest]
+        python-version: ['3.12', '3.13']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
+        working-directory: ./python
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install flake8
       - name: Run Flake8
-        run: flake8 . --max-line-length=88 --extend-ignore=E203 > flake8-report.txt 2>&1 || echo "Flake8 failed, report generated"
-      - name: Upload Flake8 report as artifact
+        working-directory: ./python
+        run: flake8 simple_calculator.py
+      - name: Upload Flake8 report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: flake8-report-${{ matrix.python-version }}-${{ matrix.os }}
-          path: flake8-report.txt
+          name: flake8-report-${{ matrix.os }}-python-${{ matrix.python-version }}
+          path: python/flake8-report.txt
           retention-days: 30
 
   test:
-    if: false  # Remove this line
+    if: false # Remove this line to enable job
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.12', '3.13']
         os: [ubuntu-latest, windows-latest]
+        python-version: ['3.12', '3.13']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
+        working-directory: ./python
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pytest
       - name: Run Pytest
-        run: pytest --junitxml=pytest-report.xml || echo "Pytest failed, report generated"
-      - name: Upload Pytest Report as Artifact
+        working-directory: ./python
+        run: pytest --junitxml=pytest-report.xml
+      - name: Upload Pytest report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: pytest-report-${{ matrix.python-version }}-${{ matrix.os }}
-          path: pytest-report.xml
+          name: pytest-report-${{ matrix.os }}-python-${{ matrix.python-version }}
+          path: python/pytest-report.xml
           retention-days: 30

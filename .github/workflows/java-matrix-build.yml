@@ -1,70 +1,76 @@
-name: Java CI
+name: Java Matrix Build
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
   workflow_dispatch:
-    inputs:
-      env:
-        description: "Zielumgebung"
-        type: choice
-        options: [dev, staging, prod]
-        required: true
-        default: dev
-      dry_run:
-        description: "Nur testen?"
-        type: boolean
-        default: true
 
 jobs:
   lint:
-    if: false  # Remove this line
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./java
+    if: false # Remove this line to enable job
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        java: ['21', '25']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
-          java-version: '25'
+          java-version: ${{ matrix.java }}
           distribution: 'temurin'
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('java/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ matrix.java }}-${{ hashFiles('java/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-maven-${{ matrix.java }}-
       - name: Run Checkstyle
+        working-directory: ./java
         run: mvn checkstyle:check
         continue-on-error: true
+      - name: Upload Checkstyle report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-report-${{ matrix.os }}-java-${{ matrix.java }}
+          path: java/target/checkstyle-result.xml
+          retention-days: 30
 
   test:
-    if: false  # Remove this line
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./java
+    if: false # Remove this line to enable job
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        java: ['21', '25']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
-          java-version: '25'
+          java-version: ${{ matrix.java }}
           distribution: 'temurin'
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('java/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ matrix.java }}-${{ hashFiles('java/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-maven-${{ matrix.java }}-
       - name: Run tests
+        working-directory: ./java
         run: mvn test
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ matrix.os }}-java-${{ matrix.java }}
+          path: java/target/surefire-reports/
+          retention-days: 30

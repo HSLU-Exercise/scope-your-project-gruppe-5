@@ -1,4 +1,4 @@
-name: Java CI
+name: Simple Java CI
 
 on:
   push:
@@ -8,13 +8,13 @@ on:
 
 jobs:
   lint:
-    if: false  # Remove this line
+    if: false # Remove this line to enable job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           java-version: '25'
           distribution: 'temurin'
@@ -23,13 +23,13 @@ jobs:
         run: mvn checkstyle:check
 
   test:
-    if: false  # Remove this line
+    if: false # Remove this line to enable job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           java-version: '25'
           distribution: 'temurin'

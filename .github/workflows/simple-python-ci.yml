@@ -1,4 +1,4 @@
-name: Python CI
+name: Simple Python CI
 
 on:
   push:
@@ -8,35 +8,39 @@ on:
 
 jobs:
   lint:
-    if: false  # Remove this line
+    if: false # Remove this line to enable job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.13'
       - name: Install dependencies
+        working-directory: ./python
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install flake8
       - name: Run Flake8
-        run: flake8 . --max-line-length=88 --extend-ignore=E203 --exclude=tests
+        working-directory: ./python
+        run: flake8 simple_calculator.py
 
   test:
-    if: false  # Remove this line
+    if: false # Remove this line to enable job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.13'
       - name: Install dependencies
+        working-directory: ./python
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pytest
       - name: Run Pytest
+        working-directory: ./python
         run: pytest

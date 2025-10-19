@@ -1,4 +1,4 @@
-[![CI](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/ci.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/ci.yml)
+[![Java Matrix Build](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/java-matrix-build.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/java-matrix-build.yml)
 
 # CI with GitHub Actions
 

@@ -1,3 +1,5 @@
+[![CI](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/ci.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/ci.yml)
+
 # CI with GitHub Actions
 
 This repository demonstrates continuous integration (CI) workflows using GitHub Actions for a simple calculator implemented in Java and Python. It includes both simple and matrix-based CI pipelines to ensure code quality through linting and testing.

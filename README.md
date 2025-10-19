@@ -20,14 +20,14 @@ If you have any questions about our project, feel free to contact us directly.
 
 ### 👨‍💻 Team Members
 
-| Name | GitHub Profile | Role / Responsibility |
+| Name |
 |------|----------------|------------------------|
-| **Shayan Guhathasan** | [@ShayanGuhathasan](https://github.com/ShayanGuhathasan) | Project Lead / CI Integration |
-| **David Redzic** | [@DavidRedzic](https://github.com/DavidRedzic) | Backend Development |
-| **Abdelrahman Mahfouz** | [@AbdelrahmanMahfouz](https://github.com/AbdelrahmanMahfouz) | Frontend Development |
-| **Satyen Tripathi** | [@SatyenTripathi](https://github.com/SatyenTripathi) | Testing & Documentation |
-| **Paul Berchtold** | [@PaulBerchtold](https://github.com/PaulBerchtold) | Database & Data Modeling |
-| **Simon Linggi** | [@SimonLinggi](https://github.com/SimonLinggi) | DevOps & Deployment |
+| **Shayan Guhathasan** | 
+| **David Redzic**  | 
+| **Abdelrahman Mahfouz** |
+| **Satyen Tripathi** | 
+| **Paul Berchtold** |
+| **Simon Linggi** |
 
 ---
 

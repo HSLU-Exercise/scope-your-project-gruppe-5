@@ -6,6 +6,37 @@
 
 This repository demonstrates continuous integration (CI) workflows using GitHub Actions for a simple calculator implemented in Java and Python. It includes both simple and matrix-based CI pipelines to ensure code quality through linting and testing.
 
+---
+
+## 👥 Team Contact
+
+We are the project team from **Hochschule Luzern (HSLU)**.  
+If you have any questions about our project, feel free to contact us directly.
+
+### 📧 Contact us
+[![Email](https://img.shields.io/badge/📧-Team%20Email-blue?style=flat&logo=gmail&logoColor=white)](mailto:shayan.guhathasan@stud-hslu.ch,david.redzic@stud.hslu.ch,abdelrahman.mahfouz@stud.hslu.ch,satyen.tripathi@stud.hslu.ch,paul.berchtold@stud.hslu.ch,simon.linggi@stud.hslu.ch?subject=HSLU%20Project%20Inquiry&body=Hello%20Team%2C%0A%0AI%20have%20a%20question%20regarding%20your%20HSLU%20project.%0A%0AThank%20you!)
+
+---
+
+### 👨‍💻 Team Members
+
+| Name | GitHub Profile | Role / Responsibility |
+|------|----------------|------------------------|
+| **Shayan Guhathasan** | [@ShayanGuhathasan](https://github.com/ShayanGuhathasan) | Project Lead / CI Integration |
+| **David Redzic** | [@DavidRedzic](https://github.com/DavidRedzic) | Backend Development |
+| **Abdelrahman Mahfouz** | [@AbdelrahmanMahfouz](https://github.com/AbdelrahmanMahfouz) | Frontend Development |
+| **Satyen Tripathi** | [@SatyenTripathi](https://github.com/SatyenTripathi) | Testing & Documentation |
+| **Paul Berchtold** | [@PaulBerchtold](https://github.com/PaulBerchtold) | Database & Data Modeling |
+| **Simon Linggi** | [@SimonLinggi](https://github.com/SimonLinggi) | DevOps & Deployment |
+
+---
+
+### 🏫 Hochschule Luzern (HSLU)
+[![HSLU Website](https://img.shields.io/badge/HSLU-Visit%20Website-blue?style=flat&logo=googlechrome&logoColor=white)](https://www.hslu.ch/de-ch/)
+
+---
+
+
 ## Repository Structure
 
 - `java/`: Java implementation of the calculator.

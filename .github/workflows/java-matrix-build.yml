@@ -1,15 +1,14 @@
 name: Java Matrix Build
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+#  push:
+#    branches: [ main ]
+#  pull_request:
+#    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   lint:
-    if: false # Remove this line to enable job
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -43,7 +42,6 @@ jobs:
           retention-days: 30
 
   test:
-    if: false # Remove this line to enable job
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

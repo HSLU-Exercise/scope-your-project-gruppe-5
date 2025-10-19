@@ -1,14 +1,14 @@
 name: Simple Python CI
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+#  push:
+#    branches: [ main ]
+#  pull_request:
+#    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   lint:
-    if: false # Remove this line to enable job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -27,7 +27,6 @@ jobs:
         run: flake8 simple_calculator.py
 
   test:
-    if: false # Remove this line to enable job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

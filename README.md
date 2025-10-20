@@ -20,7 +20,7 @@ If you have any questions about our project, feel free to contact us directly.
 ### 👨‍💻 Team Members
 
 | Name |
-|------|----------------|------------------------|
+|------|
 | **Shayan Guhathasan** | 
 | **David Redzic**  | 
 | **Abdelrahman Mahfouz** |

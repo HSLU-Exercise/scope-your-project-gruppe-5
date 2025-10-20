@@ -1,0 +1,40 @@
+name: CI Email Demo (Gmail)
+
+on:
+  workflow_dispatch:  # manuell starten
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulate a failure
+        run: exit 1   # absichtlicher Fehler, um Benachrichtigung zu testen
+
+  notify_email:
+    needs: build
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
+          secure: true           # SSL aktiv
+          starttls: false        # nur für Port 465
+          from: ${{ secrets.SMTP_FROM }}
+          to: ${{ vars.TEAM_EMAILS }}
+          subject: "❌ Demo Build Failed in ${{ github.repository }}"
+          body: |
+            This is a demo notification from GitHub Actions.
+
+            Repository: ${{ github.repository }}
+            Workflow: ${{ github.workflow }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Actor: ${{ github.actor }}
+
+            View logs:
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

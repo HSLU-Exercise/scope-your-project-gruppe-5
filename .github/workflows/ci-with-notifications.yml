@@ -21,7 +21,7 @@ jobs:
 
       # ❌ Zum Testen kannst du kurz diese Zeile aktivieren,
       # um einen Fehler zu simulieren:
-      # - run: exit 1
+       - run: exit 1
 
   notify_discord:
     needs: build

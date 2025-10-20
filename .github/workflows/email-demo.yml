@@ -38,3 +38,20 @@ jobs:
 
             View logs:
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  notify_discord:
+    needs: build
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord
+        uses: Ilshidur/action-discord@v3
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message: |
+            ❌ **Demo Build failed**
+            Repository: ${{ github.repository }}
+            Workflow: ${{ github.workflow }}
+            Branch: ${{ github.ref_name }}
+            Actor: ${{ github.actor }}
+            ▶ Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

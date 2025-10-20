@@ -1,0 +1,29 @@
+name: CI with Discord Notification
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Run your tests here..."
+
+  notify:
+    needs: build
+    if: always()  # wird immer ausgeführt (auch bei success/failure)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord
+        uses: Ilshidur/action-discord@v3
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message: |
+            🧱 **GitHub CI Notification**
+            Repository: ${{ github.repository }}
+            Status: ${{ job.status }}
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+            Logs: [View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})

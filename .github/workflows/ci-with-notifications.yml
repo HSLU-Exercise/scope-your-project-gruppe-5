@@ -1,29 +1,60 @@
-name: CI with Discord Notification
+name: CI with Notifications
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Run your tests here..."
 
-  notify:
+      # 👉 Hier passiert dein Test oder Build
+      - name: Run tests
+        run: |
+          echo "Running build..."
+          # Beispiel: Java oder Python Tests hier ausführen
+          # mvn -B clean test
+          # pytest -q
+
+      # ❌ Zum Testen kannst du kurz diese Zeile aktivieren,
+      # um einen Fehler zu simulieren:
+      # - run: exit 1
+
+  notify_discord:
     needs: build
-    if: always()  # wird immer ausgeführt (auch bei success/failure)
+    if: failure()   # nur ausführen, wenn der Build fehlschlägt
     runs-on: ubuntu-latest
     steps:
-      - name: Notify Discord
+      - name: Send Discord message
         uses: Ilshidur/action-discord@v3
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           message: |
-            🧱 **GitHub CI Notification**
+            ❌ **Build failed!**
             Repository: ${{ github.repository }}
-            Status: ${{ job.status }}
-            Commit: ${{ github.sha }}
+            Branch: ${{ github.ref_name }}
             Author: ${{ github.actor }}
-            Logs: [View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            View logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  notify_email:
+    needs: build
+    if: failure()   # nur ausführen, wenn der Build fehlschlägt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Email
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
+          subject: "❌ Build failed for ${{ github.repository }}"
+          from: "HSLU CI Bot <${{ secrets.SMTP_FROM }}>"
+          to: ${{ vars.TEAM_EMAILS }}
+          body: |
+            Build failed on branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

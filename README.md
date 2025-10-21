@@ -37,6 +37,33 @@ If you have any questions about our project, feel free to contact us directly.
 
 ## Repository Structure
 
+```
+scope-your-project-gruppe-5/
+├── .github/
+│   └── workflows/
+│       ├── simple-java-ci.yml
+│       ├── java-matrix-build.yml
+│       ├── simple-python-ci.yml
+│       └── python-matrix-build.yml
+├── java/
+│   ├── src/
+│   │   ├── main/
+│   │   │   └── java/
+│   │   │       └── SimpleCalculator.java
+│   │   └── test/
+│   │       └── java/
+│   │           └── SimpleCalculatorTest.java
+│   ├── checkstyle.xml
+│   └── pom.xml
+├── python/
+│   ├── simple_calculator.py
+│   ├── test_simple_calculator.py
+│   └── .flake8
+├── .gitignore
+└── README.md
+```
+
+
 - `java/`: Java implementation of the calculator.
   - `src/main/java/SimpleCalculator.java`: Core calculator logic.
   - `src/test/java/SimpleCalculatorTest.java`: JUnit tests.

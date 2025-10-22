@@ -41,10 +41,10 @@ If you have any questions about our project, feel free to contact us directly.
 scope-your-project-gruppe-5/
 ├── .github/
 │   └── workflows/
-│       ├── simple-java-ci.yml
-│       ├── java-matrix-build.yml
-│       ├── simple-python-ci.yml
-│       └── python-matrix-build.yml
+│       ├── java-matrix.yml
+│       ├── java-simple.yml
+│       ├── python-matrix.yml
+│       └── python-simple.yml
 ├── java/
 │   ├── src/
 │   │   ├── main/
@@ -59,6 +59,11 @@ scope-your-project-gruppe-5/
 │   ├── simple_calculator.py
 │   ├── test_simple_calculator.py
 │   └── .flake8
+├── templates/
+│   ├── java-matrix-template.yml
+│   ├── java-simple-template.yml
+│   ├── python-matrix-template.yml
+│   └── python-simple-template.yml
 ├── .gitignore
 └── README.md
 ```

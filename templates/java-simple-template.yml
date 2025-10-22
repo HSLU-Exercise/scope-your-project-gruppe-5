@@ -1,0 +1,66 @@
+# Copy this file to .github/workflows/ (e.g., java-simple.yml) and modify as noted
+name: Java Simple CI Template
+
+# Change 'main' to your branch (e.g., 'master')
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Change '25' to your Java version (e.g., '17', '21')
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+
+      # Change 'java/pom.xml' if your pom.xml is elsewhere
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-25-${{ hashFiles('java/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-25-
+
+      # Change './java' if your project is in a different folder
+      - name: Run Checkstyle
+        working-directory: ./java
+        run: mvn checkstyle:check
+        continue-on-error: true
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Change '25' to your Java version
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+
+      # Change 'java/pom.xml' if your pom.xml is elsewhere
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-25-${{ hashFiles('java/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-25-
+
+      # Change './java' if your project is in a different folder
+      - name: Run tests
+        working-directory: ./java
+        run: mvn test

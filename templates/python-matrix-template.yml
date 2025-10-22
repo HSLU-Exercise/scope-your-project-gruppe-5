@@ -1,0 +1,88 @@
+# Copy this file to .github/workflows/ (e.g., python-matrix.yml) and modify as noted
+name: Python Matrix Build Template
+
+# Change 'main' to your branch (e.g., 'master')
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        # Change to your Python versions (e.g., ['3.10', '3.11'])
+        python-version: ['3.12', '3.13']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Change to your Python versions
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Change './python' if your project is in a different folder
+      - name: Install dependencies
+        working-directory: ./python
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      # Change './python' and 'simple_calculator.py' to your folder/file
+      # Update report file name if needed
+      - name: Run Flake8
+        working-directory: ./python
+        run: flake8 simple_calculator.py > flake8-report.txt
+
+      # Change 'python/flake8-report.txt' if your report path differs
+      - name: Upload Flake8 report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flake8-report-${{ matrix.os }}-python-${{ matrix.python-version }}
+          path: python/flake8-report.txt
+          retention-days: 30
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        # Change to your Python versions
+        python-version: ['3.12', '3.13']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Change to your Python versions
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Change './python' if your project is in a different folder
+      - name: Install dependencies
+        working-directory: ./python
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      # Change './python' and report file name if needed
+      - name: Run Pytest
+        working-directory: ./python
+        run: pytest --junitxml=pytest-report.xml
+
+      # Change 'python/pytest-report.xml' if your report path differs
+      - name: Upload Pytest report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report-${{ matrix.os }}-python-${{ matrix.python-version }}
+          path: python/pytest-report.xml
+          retention-days: 30

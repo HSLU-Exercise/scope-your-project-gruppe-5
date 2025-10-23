@@ -21,6 +21,7 @@ jobs:
       - name: Run Checkstyle
         working-directory: ./java
         run: mvn checkstyle:check
+        continue-on-error: true
 
   test:
     runs-on: ubuntu-latest

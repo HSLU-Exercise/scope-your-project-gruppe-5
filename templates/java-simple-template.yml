@@ -1,7 +1,9 @@
-# Copy this file to .github/workflows/ (e.g., java-simple.yml) and modify as noted
-name: Java Simple CI Template
+# Copy to .github/workflows/ (e.g., java-simple.yml) and modify as noted
+# Ensure checkstyle-template.xml is copied to your Java folder (e.g., java/)
+# See README.md for details on how this workflow tests Java code
+name: Simple Java CI Template
 
-# Change 'main' to your branch (e.g., 'master')
+# Change 'main' to your branch (e.g., 'master' for your main branch)
 on:
   push:
     branches: [ main ]
@@ -15,24 +17,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # Change '25' to your Java version (e.g., '17', '21')
+      # Change '25' to your Java version (e.g., '17' for Java 17 projects)
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: '25'
           distribution: 'temurin'
-
-      # Change 'java/pom.xml' if your pom.xml is elsewhere
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-25-${{ hashFiles('java/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-25-
-
-      # Change './java' if your project is in a different folder
+      # Change './java' if your Java files or checkstyle-template.xml are in a different folder
       - name: Run Checkstyle
         working-directory: ./java
         run: mvn checkstyle:check
@@ -43,24 +34,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       # Change '25' to your Java version
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: '25'
           distribution: 'temurin'
-
-      # Change 'java/pom.xml' if your pom.xml is elsewhere
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-25-${{ hashFiles('java/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-25-
-
-      # Change './java' if your project is in a different folder
+      # Change './java' if your Java files are in a different folder
       - name: Run tests
         working-directory: ./java
         run: mvn test

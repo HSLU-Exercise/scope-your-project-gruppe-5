@@ -25,6 +25,7 @@ jobs:
       - name: Run Flake8
         working-directory: ./python
         run: flake8 simple_calculator.py
+        continue-on-error: true
 
   test:
     runs-on: ubuntu-latest

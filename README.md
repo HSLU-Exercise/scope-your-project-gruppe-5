@@ -16,19 +16,6 @@ If you have any questions about our project, feel free to contact us directly.
 
 ---
 
-### 👨‍💻 Team Members
-
-| Name |
-|------|
-| **Shayan Guhathasan** | 
-| **David Redzic**  | 
-| **Abdelrahman Mahfouz** |
-| **Satyen Tripathi** | 
-| **Paul Berchtold** |
-| **Simon Linggi** |
-
----
-
 ### 🏫 Hochschule Luzern (HSLU)
 [![HSLU Website](https://img.shields.io/badge/HSLU-Visit%20Website-blue?style=flat&logo=googlechrome&logoColor=white)](https://www.hslu.ch/de-ch/)
 
@@ -86,23 +73,20 @@ scope-your-project-gruppe-5/
 - `.gitignore`: Excludes build artifacts (e.g., `java/target/`, `flake8-report.txt`) to keep the repository clean.
 - `README.md`: This file.
 
-## CI Workflows
+# Continuous Integration Setup
 
-### Java CI
-- **Simple Java CI** (`simple-java-ci.yml`):
-  - Runs Checkstyle for linting and JUnit for testing on Java 25, Ubuntu.
-  - No artifact management; outputs are logged in the Actions tab.
-- **Java Matrix Build** (`java-matrix-build.yml`):
-  - Runs linting and testing across Java 21/25 and Ubuntu/Windows.
-  - Stores Checkstyle and JUnit reports as artifacts for 30 days.
+## Active Workflows
+- **`java-simple.yml`**: Runs [Checkstyle](https://checkstyle.sourceforge.io/) to check Java code style and [JUnit](https://junit.org/junit5/) tests to verify functionality on Java 25 in a single Ubuntu environment. Linting failures don’t stop testing.
+- **`java-matrix.yml`**: Tests Java code across Java 21/25 and Ubuntu/Windows, using [Maven](https://maven.apache.org/guides/) to run Checkstyle and JUnit tests, uploading lint/test reports as artifacts.
+- **`python-simple.yml`**: Runs [Flake8](https://flake8.pycqa.org/) to check Python code style and [pytest](https://docs.pytest.org/) to verify functionality on Python 3.13 in a single Ubuntu environment. Linting failures don’t stop testing.
+- **`python-matrix.yml`**: Tests Python code across Python 3.12/3.13 and Ubuntu/Windows, running Flake8 and pytest, uploading lint/test reports as artifacts.
 
-### Python CI
-- **Simple Python CI** (`simple-python-ci.yml`):
-  - Runs Flake8 for linting and pytest for testing on Python 3.13, Ubuntu.
-  - No artifact management; outputs are logged in the Actions tab.
-- **Python Matrix Build** (`python-matrix-build.yml`):
-  - Runs linting (Flake8) and testing (pytest) across Python 3.12/3.13 and Ubuntu/Windows.
-  - Stores Flake8 and pytest reports as artifacts for 30 days.
+## Reusing Templates
+To use our CI setup in your project:
+1. Copy workflow templates from `templates/` (e.g., `java-simple-template.yml`, `python-matrix-template.yml`) to your `.github/workflows/` directory. See [GitHub Actions Workflows](https://docs.github.com/en/actions/using-workflows) for setup details.
+2. Copy linting templates (`checkstyle-template.xml` to your Java folder, e.g., `java/`; `.flake8-template` to your Python folder, e.g., `python/`).
+3. Follow comments in each template to adjust settings like branch names, Java/Python versions, file paths, or linting rules (e.g., line length in `.flake8-template` or Checkstyle rules in `checkstyle-template.xml`).
+4. See the templates for specific instructions and refer to [Checkstyle Configuration](https://checkstyle.sourceforge.io/config.html) or [Flake8 Configuration](https://flake8.pycqa.org/en/latest/user/configuration.html) for linting details.
 
 ## Artifact Management
 

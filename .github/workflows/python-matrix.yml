@@ -29,6 +29,7 @@ jobs:
       - name: Run Flake8
         working-directory: ./python
         run: flake8 simple_calculator.py
+        continue-on-error: true
       - name: Upload Flake8 report
         if: always()
         uses: actions/upload-artifact@v4

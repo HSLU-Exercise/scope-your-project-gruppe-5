@@ -1,12 +1,14 @@
-# Copy this file to .github/workflows/ (e.g., java-matrix.yml) and modify as noted
+# Copy to .github/workflows/ (e.g., java-matrix.yml) and modify as noted
+# Ensure checkstyle-template.xml is copied to your Java folder (e.g., java/)
+# See README.md for details on how this workflow tests Java code
 name: Java Matrix Build Template
 
-# Change 'main' to your branch (e.g., 'master')
+# Change 'main' to your branch (e.g., 'master' for your main branch)
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+#  push:
+#    branches: [ main ]
+#  pull_request:
+#    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -15,20 +17,18 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        # Change to your Java versions (e.g., ['17', '21'])
+        # Change to your Java versions (e.g., ['17', '21'] for your project)
         java: ['21', '25']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       # Change to your Java versions
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
-
-      # Change 'java/pom.xml' if your pom.xml is elsewhere
+      # Change 'java/pom.xml' if your pom.xml is in a different folder
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
@@ -36,13 +36,11 @@ jobs:
           key: ${{ runner.os }}-maven-${{ matrix.java }}-${{ hashFiles('java/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-${{ matrix.java }}-
-
-      # Change './java' if your project is in a different folder
+      # Change './java' if your Java files or checkstyle-template.xml are in a different folder
       - name: Run Checkstyle
         working-directory: ./java
         run: mvn checkstyle:check
         continue-on-error: true
-
       # Change 'java/target/checkstyle-result.xml' if your report path differs
       - name: Upload Checkstyle report
         if: always()
@@ -62,15 +60,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       # Change to your Java versions
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
-
-      # Change 'java/pom.xml' if your pom.xml is elsewhere
+      # Change 'java/pom.xml' if your pom.xml is in a different folder
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
@@ -78,12 +74,10 @@ jobs:
           key: ${{ runner.os }}-maven-${{ matrix.java }}-${{ hashFiles('java/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-${{ matrix.java }}-
-
-      # Change './java' if your project is in a different folder
+      # Change './java' if your Java files are in a different folder
       - name: Run tests
         working-directory: ./java
         run: mvn test
-
       # Change 'java/target/surefire-reports/' if your report path differs
       - name: Upload test reports
         if: always()

@@ -1,8 +1,14 @@
-[![Java Matrix Build](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/java-matrix-build.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/java-matrix-build.yml) [![Python Matrix Build](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-matrix-build.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-matrix-build.yml) [![Simple Java CI](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/simple-java-ci.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/simple-java-ci.yml) [![Simple Python CI](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/simple-python-ci.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/simple-python-ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![GitHub release](https://img.shields.io/github/v/release/HSLU-Exercise/scope-your-project-gruppe-5?color=blue)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/releases) ![Contributors](https://img.shields.io/github/contributors/HSLU-Exercise/scope-your-project-gruppe-5) ![Commits](https://img.shields.io/github/commit-activity/m/HSLU-Exercise/scope-your-project-gruppe-5) [![Downloads](https://img.shields.io/github/downloads/HSLU-Exercise/scope-your-project-gruppe-5/total?color=blue&logo=github)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/releases) ![Stars](https://img.shields.io/github/stars/HSLU-Exercise/scope-your-project-gruppe-5?style=social)
+# Continuous Integration with GitHub Actions
 
-# CI with GitHub Actions
+## Badges
 
-This repository demonstrates continuous integration (CI) workflows using GitHub Actions for a simple calculator implemented in Java and Python. It includes both simple and matrix-based CI pipelines to ensure code quality through linting and testing.
+### CI Status Badges
+
+[![Java Matrix Build](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/java-matrix-build.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/java-matrix-build.yml) [![Simple Java CI](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/simple-java-ci.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/simple-java-ci.yml) [![Python Matrix Build](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-matrix-build.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/python-matrix-build.yml) [![Simple Python CI](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/simple-python-ci.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/simple-python-ci.yml)
+
+### Other Badges
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![GitHub release](https://img.shields.io/github/v/release/HSLU-Exercise/scope-your-project-gruppe-5?color=blue)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/releases) ![Contributors](https://img.shields.io/github/contributors/HSLU-Exercise/scope-your-project-gruppe-5) ![Commits](https://img.shields.io/github/commit-activity/m/HSLU-Exercise/scope-your-project-gruppe-5) [![Downloads](https://img.shields.io/github/downloads/HSLU-Exercise/scope-your-project-gruppe-5/total?color=blue&logo=github)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/releases) ![Stars](https://img.shields.io/github/stars/HSLU-Exercise/scope-your-project-gruppe-5?style=social)
 
 ---
 
@@ -21,17 +27,16 @@ If you have any questions about our project, feel free to contact us directly.
 
 ---
 
-
 ## Repository Structure
 
 ```
 scope-your-project-gruppe-5/
 ├── .github/
 │   └── workflows/
-│       ├── java-matrix.yml
 │       ├── java-simple.yml
-│       ├── python-matrix.yml
-│       └── python-simple.yml
+│       ├── java-matrix.yml
+│       ├── python-simple.yml
+│       └── python-matrix.yml
 ├── java/
 │   ├── src/
 │   │   ├── main/
@@ -47,36 +52,18 @@ scope-your-project-gruppe-5/
 │   ├── test_simple_calculator.py
 │   └── .flake8
 ├── templates/
-│   ├── java-matrix-template.yml
 │   ├── java-simple-template.yml
+│   ├── java-matrix-template.yml
+│   ├── python-simple-template.yml
 │   ├── python-matrix-template.yml
-│   └── python-simple-template.yml
+│   ├── .flake8-template
+│   └── checkstyle-template.xml
 ├── .gitignore
 └── README.md
 ```
 
-
-- `java/`: Java implementation of the calculator.
-  - `src/main/java/SimpleCalculator.java`: Core calculator logic.
-  - `src/test/java/SimpleCalculatorTest.java`: JUnit tests.
-  - `checkstyle.xml`: Checkstyle configuration for linting.
-  - `pom.xml`: Maven configuration.
-- `python/`: Python implementation of the calculator.
-  - `simple_calculator.py`: Core calculator logic.
-  - `test_simple_calculator.py`: Pytest tests.
-  - `.flake8`: Flake8 configuration for linting.
-- `.github/workflows/`:
-  - `simple-java-ci.yml`: Simple Java CI (Java 25, Ubuntu).
-  - `java-matrix-build.yml`: Matrix Java CI (Java 21/25, Ubuntu/Windows).
-  - `simple-python-ci.yml`: Simple Python CI (Python 3.13, Ubuntu).
-  - `python-matrix-build.yml`: Matrix Python CI (Python 3.12/3.13, Ubuntu/Windows).
-- `.gitignore`: Excludes build artifacts (e.g., `java/target/`, `flake8-report.txt`) to keep the repository clean.
-- `README.md`: This file.
-
-# Continuous Integration Setup
-
 ## Active Workflows
-- **`java-simple.yml`**: Runs [Checkstyle](https://checkstyle.sourceforge.io/) to check Java code style and [JUnit](https://junit.org/junit5/) tests to verify functionality on Java 25 in a single Ubuntu environment. Linting failures don’t stop testing.
+- **`java-simple.yml`**: Runs [Checkstyle](https://checkstyle.sourceforge.io/) to check Java code style and [JUnit](https://docs.junit.org/) tests to verify functionality on Java 25 in a single Ubuntu environment. Linting failures don’t stop testing.
 - **`java-matrix.yml`**: Tests Java code across Java 21/25 and Ubuntu/Windows, using [Maven](https://maven.apache.org/guides/) to run Checkstyle and JUnit tests, uploading lint/test reports as artifacts.
 - **`python-simple.yml`**: Runs [Flake8](https://flake8.pycqa.org/) to check Python code style and [pytest](https://docs.pytest.org/) to verify functionality on Python 3.13 in a single Ubuntu environment. Linting failures don’t stop testing.
 - **`python-matrix.yml`**: Tests Python code across Python 3.12/3.13 and Ubuntu/Windows, running Flake8 and pytest, uploading lint/test reports as artifacts.
@@ -87,13 +74,6 @@ To use our CI setup in your project:
 2. Copy linting templates (`checkstyle-template.xml` to your Java folder, e.g., `java/`; `.flake8-template` to your Python folder, e.g., `python/`).
 3. Follow comments in each template to adjust settings like branch names, Java/Python versions, file paths, or linting rules (e.g., line length in `.flake8-template` or Checkstyle rules in `checkstyle-template.xml`).
 4. See the templates for specific instructions and refer to [Checkstyle Configuration](https://checkstyle.sourceforge.io/config.html) or [Flake8 Configuration](https://flake8.pycqa.org/en/latest/user/configuration.html) for linting details.
-
-## Artifact Management
-
-- The `.gitignore` file ensures build artifacts (e.g., `java/target/`, `flake8-report.txt`, `pytest-report.xml`) are not committed to the repository.
-- Matrix workflows (`java-matrix-build.yml`, `python-matrix-build.yml`) store reports as artifacts in GitHub Actions for 30 days, accessible in the Actions tab.
-- Simple workflows (`simple-java-ci.yml`, `simple-python-ci.yml`) do not store artifacts, keeping the setup minimal.
-
 
 ## GitHub Docs
 

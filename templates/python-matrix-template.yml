@@ -37,7 +37,12 @@ jobs:
       # Update report file name if needed (e.g., 'lint-report.txt')
       - name: Run Flake8
         working-directory: ./python
-        run: flake8 simple_calculator.py > flake8-report.txt
+        run: |
+          flake8 simple_calculator.py --format=text --output-file=flake8-report.txt
+          if [ ! -s flake8-report.txt ]; then
+            echo "No linting issues found" > flake8-report.txt
+          fi
+        shell: bash
         continue-on-error: true
       # Change 'python/flake8-report.txt' if your report file path differs
       - name: Upload Flake8 report

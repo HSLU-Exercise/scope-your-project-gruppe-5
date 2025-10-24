@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!-- Checkstyle configuration template for Java linting -->
+<!-- Copy to your Java project folder (e.g., java/checkstyle.xml) and modify as noted -->
+<!-- See README.md for details on Checkstyle configuration -->
+
+<module name="Checker">
+  <!-- Change severity to 'error' or 'ignore' based on your enforcement needs -->
+  <property name="severity" value="warning"/>
+
+  <!-- Adjust max line length (e.g., 120 for longer lines) or modify ignorePattern -->
+  <module name="LineLength">
+    <property name="max" value="100"/>
+    <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+  </module>
+
+  <module name="TreeWalker">
+    <!-- Comment out or add modules (e.g., JavadocPackage) based on your style rules -->
+    <module name="IllegalImport"/>
+    <module name="RedundantImport"/>
+    <module name="UnusedImports"/>
+    <module name="MissingJavadocMethod"/>
+    <module name="MethodName"/>
+    <module name="ConstantName"/>
+    <module name="LocalVariableName"/>
+  </module>
+</module>

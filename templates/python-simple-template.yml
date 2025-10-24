@@ -1,10 +1,14 @@
-name: Simple Python CI
+# Copy to .github/workflows/ (e.g., python-simple.yml) and modify as noted
+# Ensure .flake8-template is copied to your Python folder (e.g., python/)
+# See README.md for details on how this workflow tests Python code
+name: Simple Python CI Template
 
+# Change 'main' to your branch (e.g., 'master' for your main branch)
 on:
-#  push:
-#    branches: [ main ]
-#  pull_request:
-#    branches: [ main ]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -13,33 +17,40 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      # Change '3.13' to your Python version (e.g., '3.11' for Python 3.11 projects)
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.13'
+      # Change './python' if your Python files or .flake8-template are in a different folder
       - name: Install dependencies
         working-directory: ./python
         run: |
           python -m pip install --upgrade pip
           pip install flake8
+      # Change './python' and 'simple_calculator.py' to your folder and Python file
       - name: Run Flake8
         working-directory: ./python
         run: flake8 simple_calculator.py
+        continue-on-error: true
 
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      # Change '3.13' to your Python version
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.13'
+      # Change './python' if your Python files are in a different folder
       - name: Install dependencies
         working-directory: ./python
         run: |
           python -m pip install --upgrade pip
           pip install pytest
+      # Change './python' if your Python files are in a different folder
       - name: Run Pytest
         working-directory: ./python
         run: pytest

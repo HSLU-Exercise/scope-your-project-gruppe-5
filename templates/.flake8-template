@@ -1,0 +1,10 @@
+# Flake8 configuration template for Python linting
+# Copy to your Python project folder (e.g., python/.flake8) and modify as noted
+# See README.md for details on Flake8 configuration
+
+[flake8]
+# Change max-line-length to your preferred value (e.g., 120 for longer lines)
+max-line-length = 88
+# Adjust ignored errors based on your project needs (e.g., add E501 to ignore line length)
+ignore = E203
+# Add include/exclude patterns if targeting specific files (e.g., include = *.py)

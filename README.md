@@ -14,7 +14,7 @@ This repository, `scope-your-project-gruppe-5`, is a project by students from Ho
 ## About
 We are a team from Hochschule Luzern (HSLU), developing this project for our course IT Project Basics (IPROBA).
 
-Contact us: [![Team Email](https://img.shields.io/badge/E--Mail-Project_Members-orange?style=flat&logo=mailboxdotorg&logoColor=white)](mailto:shayan.guhathasan@stud-hslu.ch,david.redzic@stud.hslu.ch,abdelrahman.mahfouz@stud.hslu.ch,satyen.tripathi@stud.hslu.ch,simon.linggi@stud.hslu.ch)
+Contact us: [![Team Email](https://img.shields.io/badge/E--Mail-Project_Members-orange?style=flat&logo=mailboxdotorg&logoColor=white)](mailto:shayan.guhathasan@stud-hslu.ch;david.redzic@stud.hslu.ch;abdelrahman.mahfouz@stud.hslu.ch;satyen.tripathi@stud.hslu.ch;simon.linggi@stud.hslu.ch)
 
 Learn more: [![HSLU Website](https://img.shields.io/badge/Visit_Website-HSLU-orange?style=flat&logo=internetarchive)](https://www.hslu.ch/de-ch/informatik/)
 

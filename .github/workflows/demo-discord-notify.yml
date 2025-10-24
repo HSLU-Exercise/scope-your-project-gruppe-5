@@ -1,4 +1,4 @@
-name: Discord self-test
+name: Discord Notification (TEST)
 on: workflow_dispatch
 
 jobs:

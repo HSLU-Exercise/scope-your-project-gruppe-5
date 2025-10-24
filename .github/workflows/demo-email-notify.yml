@@ -1,4 +1,4 @@
-name: CI Email Demo (Gmail)
+name: Email Notification (TEST)
 
 on:
   workflow_dispatch:  # manuell starten

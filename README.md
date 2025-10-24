@@ -13,8 +13,8 @@ This repository, `scope-your-project-gruppe-5`, is a project by students from Ho
 
 ## About
 We are a team from Hochschule Luzern (HSLU), developing this project for our course IT Project Basics (IPROBA).
-Contact us: [![Email](https://img.shields.io/badge/📧-Team%20Email-blue?style=flat&logo=gmail&logoColor=white)](mailto:shayan.guhathasan@stud-hslu.ch,david.redzic@stud.hslu.ch,abdelrahman.mahfouz@stud.hslu.ch,satyen.tripathi@stud.hslu.ch,simon.linggi@stud.hslu.ch)
-Learn more: [![HSLU Website](https://img.shields.io/badge/HSLU-Visit%20Website-blue?style=flat&logo=googlechrome&logoColor=white)](https://www.hslu.ch/de-ch/informatik/)
+Contact us: ![Team Email](https://img.shields.io/badge/E--Mail-Project_Members-black?style=flat&logo=mailboxdotorg&logoColor=white&link=mailto%3Ashayan.guhathasan%40stud-hslu.ch%2Cdavid.redzic%40stud.hslu.ch%2Cabdelrahman.mahfouz%40stud.hslu.ch%2Csatyen.tripathi%40stud.hslu.ch%2Csimon.linggi%40stud.hslu.ch)
+Learn more: ![HSLU Website](https://img.shields.io/badge/E--Mail-Project_Members-black?style=flat&logo=mailboxdotorg&logoColor=white&link=mailto%3Ashayan.guhathasan%40stud-hslu.ch%2Cdavid.redzic%40stud.hslu.ch%2Cabdelrahman.mahfouz%40stud.hslu.ch%2Csatyen.tripathi%40stud.hslu.ch%2Csimon.linggi%40stud.hslu.ch)
 
 ## Repository Structure
 ```

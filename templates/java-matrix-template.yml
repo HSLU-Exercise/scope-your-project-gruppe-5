@@ -1,14 +1,14 @@
 # Copy to .github/workflows/ (e.g., java-matrix.yml) and modify as noted
-# Ensure checkstyle-template.xml is copied to your Java folder (e.g., java/)
+# Ensure checkstyle-template.xml is copied to your Java folder (e.g., java/checkstyle.xml)
 # See README.md for details on how this workflow tests Java code
 name: Java Matrix Build Template
 
 # Change 'main' to your branch (e.g., 'master' for your main branch)
 on:
-#  push:
-#    branches: [ main ]
-#  pull_request:
-#    branches: [ main ]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -22,7 +22,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      # Change to your Java versions
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -36,7 +35,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ matrix.java }}-${{ hashFiles('java/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-${{ matrix.java }}-
-      # Change './java' if your Java files or checkstyle-template.xml are in a different folder
+      # Change './java' if your Java files or checkstyle.xml are in a different folder
       - name: Run Checkstyle
         working-directory: ./java
         run: mvn checkstyle:check
@@ -60,7 +59,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      # Change to your Java versions
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:

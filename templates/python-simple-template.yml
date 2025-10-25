@@ -1,5 +1,5 @@
 # Copy to .github/workflows/ (e.g., python-simple.yml) and modify as noted
-# Ensure .flake8-template is copied to your Python folder (e.g., python/)
+# Ensure .flake8-template is copied to your Python folder (e.g., python/.flake8)
 # See README.md for details on how this workflow tests Python code
 name: Simple Python CI Template
 
@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.13'
-      # Change './python' if your Python files or .flake8-template are in a different folder
+      # Change './python' if your Python files or .flake8 are in a different folder
       - name: Install dependencies
         working-directory: ./python
         run: |

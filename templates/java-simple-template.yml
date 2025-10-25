@@ -1,5 +1,5 @@
 # Copy to .github/workflows/ (e.g., java-simple.yml) and modify as noted
-# Ensure checkstyle-template.xml is copied to your Java folder (e.g., java/)
+# Ensure checkstyle-template.xml is copied to your Java folder (e.g., java/checkstyle.xml)
 # See README.md for details on how this workflow tests Java code
 name: Simple Java CI Template
 
@@ -23,7 +23,7 @@ jobs:
         with:
           java-version: '25'
           distribution: 'temurin'
-      # Change './java' if your Java files or checkstyle-template.xml are in a different folder
+      # Change './java' if your Java files or checkstyle.xml are in a different folder
       - name: Run Checkstyle
         working-directory: ./java
         run: mvn checkstyle:check

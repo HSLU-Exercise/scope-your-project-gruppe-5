@@ -6,7 +6,7 @@
 # 2️⃣ Automatisch eine Nachricht schicken, wenn andere Workflows fehlschlagen
 # ================================================
 # -> Das ist der Name, der im "Actions"-Tab angezeigt wird
-name: Discord:CI-Alerts/Demo  
+name: Demo-Discord-Notify (Test)
 
 
 # ================================================
@@ -50,7 +50,7 @@ jobs:
       # ======================================================
 
       # --- Schritt 1: Neutrale Testnachricht ---
-      - name: Demo: neutrale Test-Nachricht
+      - name: Demo:neutrale Test-Nachricht
         # "if" bedeutet: führe diesen Schritt nur aus, wenn diese Bedingung stimmt
         # Hier: Nur wenn der Workflow per Knopfdruck gestartet wurde UND die Auswahl "test" war
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.as == 'test' }}
@@ -65,7 +65,7 @@ jobs:
             💬 ${{ github.event.inputs.note }}
 
       # --- Schritt 2: Demo im Fehler-Stil ---
-      - name: Demo: Fehler-Stil
+      - name: Demo:Fehler-Stil
         # Nur ausführen, wenn per Knopfdruck gestartet wurde und die Auswahl "fail" war
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.as == 'fail' }}
         uses: tsickert/discord-webhook@v7.0.0
@@ -83,7 +83,7 @@ jobs:
           embed-color: 15548997  # -> Farbe des Embeds (rot)
 
       # --- Schritt 3: Demo im Erfolgs-Stil ---
-      - name: Demo: Erfolgs-Stil
+      - name: Demo:Erfolgs-Stil
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.as == 'success' }}
         uses: tsickert/discord-webhook@v7.0.0
         with:

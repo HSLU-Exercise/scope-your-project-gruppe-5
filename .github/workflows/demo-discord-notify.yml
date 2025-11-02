@@ -33,7 +33,7 @@ on:
   # 2️⃣ workflow_run = Wird gestartet, wenn andere Workflows fertig sind
   workflow_run:
     # Hier schreiben wir die Namen der Workflows, die überwacht werden sollen.
-    workflows: ["Java Matrix Build", "Simple Java CI", "python-matrix", "python-simple"]
+    workflows: ["Java Matrix Build", "Simple Java CI", "Python Matrix Build", "python-simple"]
     types: [completed]  # -> Das bedeutet: Es wird ausgelöst, wenn sie fertig sind (egal ob Erfolg oder Fehler)
 
 # ================================================

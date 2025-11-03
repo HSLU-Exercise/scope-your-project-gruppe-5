@@ -1,14 +1,14 @@
 name: CI Email Alerts and Demo
 
 on:
-  # 1) Manuell per Button starten (für Demo/tests)
+  # Manuell starten (Demo-Knopf)
   workflow_dispatch:
     inputs:
-      send_to:               # wohin die Mail gehen soll
+      send_to:
         description: "Empfänger: me (nur ich) oder class (ganze Klasse)"
         required: true
         default: "me"
-      note:                  # optionaler Hinweistext in der Mail
+      note:
         description: "Optionaler Hinweis in der E-Mail"
         required: false
         default: ""
@@ -18,26 +18,29 @@ on:
         required: true
         default: true
 
-  # 2) Automatisch reagieren, wenn diese Workflows fertig sind
-  #    (wir filtern später nur 'failure')
+  # Automatisch nach Abschluss anderer Workflows
   workflow_run:
-    workflows:
-      - "Java Matrix Build"
-      - "Simple Java CI"
-      - "Python Matrix Build"
-      - "Simple Python CI"
-    types:
-      - completed
+    # Erstmal alle Workflows beobachten – wenn das klappt, kannst du es wieder einschränken:
+    # workflows:
+    #   - "Java Matrix Build"
+    #   - "Simple Java CI"
+    #   - "Python Matrix Build"
+    #   - "Simple Python CI"
+    types: [completed]
 
 jobs:
-  # -------- DEMO-KNOPF: schickt sofort eine Testmail --------
+  # -------- DEMO-KNOPF --------
   demo_email:
-    # läuft NUR beim manuellen Start
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force == true }}
+    # Wichtig: String-Vergleich, sonst wird der Job übersprungen
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Empfänger festlegen
-        # wir schreiben die Empfänger in eine Umgebungsvariable RECIPIENTS
+      - name: Debug (workflow_dispatch Inputs)
+        run: |
+          echo "send_to=${{ github.event.inputs.send_to }}"
+          echo "force=${{ github.event.inputs.force }} (string 'true'/'false')"
+
+      - name: Empfänger festlegen (Demo)
         run: |
           if [ "${{ github.event.inputs.send_to }}" = "class" ]; then
             echo "RECIPIENTS=${{ vars.CLASS_EMAILS }}" >> $GITHUB_ENV
@@ -52,13 +55,13 @@ jobs:
           server_port: ${{ secrets.SMTP_PORT }}       # 465 (SSL)
           username: ${{ secrets.SMTP_USER }}          # hslu.ci.demo@gmail.com
           password: ${{ secrets.SMTP_PASS }}          # 16-stell. App-Passwort
-          secure: true                                # SSL aktiv (für Port 465)
-          starttls: false                             # bei SSL/465: false
-          from: ${{ secrets.SMTP_FROM }}              # muss = Gmail-User sein
-          to: ${{ env.RECIPIENTS }}                   # Empfänger aus Schritt oben
+          secure: true
+          starttls: false
+          from: ${{ secrets.SMTP_FROM }}              # = Gmail-User
+          to: ${{ env.RECIPIENTS }}
           subject: "✅ Demo-Mail von ${{ github.repository }}"
           body: |
-            Das ist eine DEMO-E-Mail aus GitHub Actions.
+            DEMO-E-Mail aus GitHub Actions.
 
             Repository: ${{ github.repository }}
             Workflow: ${{ github.workflow }}
@@ -68,16 +71,22 @@ jobs:
             Aktueller Run:
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-  # -------- AUTO-ALARM BEI FEHLERN IN ANDEREN WORKFLOWS --------
+  # -------- AUTO-ALARM BEI FEHLERN --------
   notify_on_failure:
-    # läuft NUR, wenn wir über workflow_run ausgelöst wurden UND der andere Workflow fehlgeschlagen ist
+    # Läuft nur, wenn ein anderer Workflow abgeschlossen UND fehlgeschlagen ist
     if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Empfänger für Alarm festlegen
-        # zuerst nur an dich; wenn du auf "class" umstellen willst, ändere hier MY_EMAIL -> CLASS_EMAILS
+      - name: Debug (workflow_run Kontext)
         run: |
-          echo "RECIPIENTS=${{ vars.MY_EMAIL }}" >> $GITHUB_ENV
+          echo "Triggered by workflow:  ${{ github.event.workflow_run.name }}"
+          echo "Conclusion:            ${{ github.event.workflow_run.conclusion }}"
+          echo "Branch:                ${{ github.event.workflow_run.head_branch }}"
+          echo "HTML URL:              ${{ github.event.workflow_run.html_url }}"
+
+      - name: Empfänger festlegen (zuerst nur du)
+        run: echo "RECIPIENTS=${{ vars.MY_EMAIL }}" >> $GITHUB_ENV
+        # Wenn die Klasse dran ist: ersetze oben MY_EMAIL -> CLASS_EMAILS
 
       - name: Fehlermail senden (Gmail über SMTP/SSL)
         uses: dawidd6/action-send-mail@v4
@@ -104,4 +113,4 @@ jobs:
             ${{ github.event.workflow_run.html_url }}
 
             Hinweis:
-            Du kannst die Empfänger-Liste in Repo-Settings → Variables ändern (MY_EMAIL / CLASS_EMAILS).
+            Empfänger-Liste: Repo → Settings → Actions → Variables (MY_EMAIL / CLASS_EMAILS)

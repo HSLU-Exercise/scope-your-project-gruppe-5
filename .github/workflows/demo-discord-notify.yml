@@ -1,13 +1,7 @@
-# =========================================================
-# Discord: CI-Alerts + Demo (Kombiniert)
-# - Knopf für Demo (workflow_dispatch)
-# - Automatische Meldung, wenn überwachte Workflows scheitern (workflow_run)
-# =========================================================
-
-name: "Discord: CI-Alerts + Demo"
+name: "Discord: CI-Alerts and Demo"
 
 on:
-  # Knopf im Actions-Tab
+  # 1) Manueller Start -> zeigt den "Run workflow"-Knopf im Actions-Tab
   workflow_dispatch:
     inputs:
       mode:
@@ -19,9 +13,14 @@ on:
         required: false
         default: ""
 
-  # Beobachte die **Namen** deiner Workflows (müssen exakt matchen)
+  # 2) Automatisch auslösen, wenn diese Workflows abgeschlossen sind
+  #    WICHTIG: Das sind die exakten Werte aus deren `name:`-Zeile.
   workflow_run:
-    workflows: ["Java Matrix Build", "Simple Java CI", "Python Matrix Build", "Simple Python CI"]
+    workflows:
+      - "Java Matrix Build"
+      - "Simple Java CI"
+      - "Python Matrix Build"
+      - "Simple Python CI"
     types: [completed]
 
 jobs:
@@ -29,10 +28,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # -------------------------------
+      # =========================
       # Demo per Knopfdruck
-      # -------------------------------
-
+      # =========================
       - name: Demo: neutrale Test-Nachricht
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'test' }}
         uses: tsickert/discord-webhook@v7.0.0
@@ -73,106 +71,14 @@ jobs:
             💬 ${{ github.event.inputs.note }}
           embed-color: 5763719
 
-      # -------------------------------
-      # Auto-Alarm bei Fehlern
-      # -------------------------------
-
+      # =========================
+      # Automatischer Alarm bei Fehlern
+      # =========================
       - name: CI-Fehler melden (nur wenn != success)
         if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success' }}
         uses: tsickert/discord-webhook@v7.0.0
         with:
-          webhook-url: ${{ secrets.Discord_Webhook || secrets.DISCORD_WEBHOOK }}
-          embed-title: "❌ CI fehlgeschlagen — ${{ github.event.workflow_run.name }}"
-          embed-description: |
-            **Repo:**   ${{ github.repository }}
-            **Branch:** ${{ github.event.workflow_run.head_branch }}
-            **Commit:** ${{ github.event.workflow_run.head_sha }}
-            **Run:**    ${{ github.event.workflow_run.html_url }}
-          embed-color: 15548997
-# =========================================================
-# Discord: CI-Alerts + Demo (Kombiniert)
-# - Knopf für Demo (workflow_dispatch)
-# - Automatische Meldung, wenn überwachte Workflows scheitern (workflow_run)
-# =========================================================
-
-name: Discord: CI-Alerts + Demo
-
-on:
-  # Knopf im Actions-Tab
-  workflow_dispatch:
-    inputs:
-      mode:
-        description: "Demo-Modus: test | fail | success"
-        required: true
-        default: "test"
-      note:
-        description: "Optionaler Kommentar"
-        required: false
-        default: ""
-
-  # Beobachte die **Namen** deiner Workflows (müssen exakt matchen)
-  workflow_run:
-    workflows: ["Java Matrix Build", "Simple Java CI", "Python Matrix Build", "Simple Python CI"]
-    types: [completed]
-
-jobs:
-  discord-notify:
-    runs-on: ubuntu-latest
-
-    steps:
-      # -------------------------------
-      # Demo per Knopfdruck
-      # -------------------------------
-
-      - name: Demo: neutrale Test-Nachricht
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'test' }}
-        uses: tsickert/discord-webhook@v7.0.0
-        with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: |
-            🛠️ **Webhook-Test (manuell)**
-            📦 Repo: ${{ github.repository }}
-            👤 Ausgelöst von: ${{ github.actor }}
-            ▶️ Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            💬 ${{ github.event.inputs.note }}
-
-      - name: Demo: Fehler-Stil
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'fail' }}
-        uses: tsickert/discord-webhook@v7.0.0
-        with:
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          embed-title: "❌ DEMO — CI fehlgeschlagen"
-          embed-description: |
-            **Repo:** ${{ github.repository }}
-            **Branch:** ${{ github.ref_name }}
-            **Commit:** ${{ github.sha }}
-            **Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            💬 ${{ github.event.inputs.note }}
-          embed-color: 15548997
-
-      - name: Demo: Erfolgs-Stil
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'success' }}
-        uses: tsickert/discord-webhook@v7.0.0
-        with:
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          embed-title: "✅ DEMO — CI erfolgreich"
-          embed-description: |
-            **Repo:** ${{ github.repository }}
-            **Branch:** ${{ github.ref_name }}
-            **Commit:** ${{ github.sha }}
-            **Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            💬 ${{ github.event.inputs.note }}
-          embed-color: 5763719
-
-      # -------------------------------
-      # Auto-Alarm bei Fehlern
-      # -------------------------------
-
-      - name: CI-Fehler melden (nur wenn != success)
-        if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success' }}
-        uses: tsickert/discord-webhook@v7.0.0
-        with:
-          webhook-url: ${{ secrets.Discord_Webhook || secrets.DISCORD_WEBHOOK }}
           embed-title: "❌ CI fehlgeschlagen — ${{ github.event.workflow_run.name }}"
           embed-description: |
             **Repo:**   ${{ github.repository }}

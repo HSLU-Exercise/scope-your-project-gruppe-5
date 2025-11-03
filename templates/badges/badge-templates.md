@@ -52,8 +52,11 @@ Auf der folgenden Webseite findest du verschiedene Open-Source-Lizenzen (z. B. M
 ```
 ### Release 
 Damit dein Release-Badge korrekt angezeigt wird, musst du mindestens ein Release in deinem Repository erstellen.
+
 Ein Release veröffentlichst du auf GitHub, indem du oben auf “Releases” → “Create a new release” klickst.
+
 Vergib eine Versionsnummer (z. B. v1.0.0) und optional eine Beschreibung deiner Änderungen.
+
 Sobald das Release veröffentlicht ist, zeigt der Badge automatisch die aktuelle Version an.
 
 Weitere Informationen findest du in der GitHub-Dokumentation:
@@ -64,8 +67,10 @@ Weitere Informationen findest du in der GitHub-Dokumentation:
 ### Contributors 
 Der Contributors-Badge zeigt automatisch alle Personen an, die im Repository mitgewirkt haben.
 GitHub erkennt Mitwirkende anhand ihrer Commits, Pull Requests oder Code-Änderungen.
+
 Sobald ein Benutzer mindestens einen Beitrag geleistet hat, wird er im Contributors-Badge und auf der Seite
 “Insights → Contributors” angezeigt.
+
 Der Badge aktualisiert sich automatisch, sobald neue Mitwirkende hinzukommen.
 ```
 [![Contributors](https://img.shields.io/github/contributors/OWNER/REPO?style=flat&color=blue)](https://github.com/OWNER/REPO/graphs/contributors)
@@ -73,14 +78,43 @@ Der Badge aktualisiert sich automatisch, sobald neue Mitwirkende hinzukommen.
 ### Commits
 Der Commits-Badge zeigt die Anzahl der Commits (Änderungen),
 die innerhalb eines bestimmten Zeitraums im Repository gemacht wurden.
+
 Standardmäßig wird beim Badge commit-activity/y die jährliche Commit-Aktivität angezeigt.
 Es gibt auch Varianten für Wochen (/w) oder Monate (/m).
+
 Der Badge aktualisiert sich automatisch, sobald neue Commits auf den Branch (z. B. main) gepusht werden.
+
 Damit der Badge etwas anzeigt, muss also mindestens ein Commit im Repository vorhanden sein.
 ```
 [![Commits](https://img.shields.io/github/commit-activity/y/OWNER/REPO?style=flat&color=blue)](https://github.com/OWNER/REPO/graphs/commit-activity)
+````
+### Last commit
+Der Last Commit-Badge zeigt das Datum des letzten Commits (also der letzten Änderung) im Repository an.
+
+Er aktualisiert sich automatisch, sobald jemand einen neuen Commit auf den Hauptbranch (z. B. main) pusht.
+Dadurch erkennt man auf einen Blick, wie aktuell das Projekt ist.
+
+Wenn das Repository neu ist oder noch keine Änderungen enthält, bleibt der Badge leer.
+```
 [![Last commit](https://img.shields.io/github/last-commit/OWNER/REPO?style=flat&color=blue)](https://github.com/OWNER/REPO/graphs/commit-activity)
+````
+### Downloads
+Der Downloads-Badge zeigt, wie oft Dateien aus den Releases deines Repositories heruntergeladen wurden.
+
+Damit dieser Badge Werte anzeigt, muss mindestens ein Release mit hochgeladenen Dateien (Assets) vorhanden sein.
+
+GitHub zählt dabei alle Downloads über alle Releases hinweg
+und aktualisiert den Zähler automatisch.
+```
 [![Downloads](https://img.shields.io/github/downloads/OWNER/REPO/total?style=flat&color=blue)](https://github.com/OWNER/REPO/releases)
+```
+### Stars
+Der Stars-Badge zeigt, wie viele Personen dein Repository „gestarred“ (markiert) haben.
+
+Stars sind eine GitHub-Funktion, mit der Nutzer Projekte speichern oder unterstützen können.
+
+Der Badge aktualisiert sich automatisch, sobald jemand dein Repository mit einem ⭐️ versieht oder den Stern wieder entfernt.
+```
 [![Stars](https://img.shields.io/github/stars/OWNER/REPO?style=flat&color=blue)](https://github.com/OWNER/REPO/stargazers)
 
 ```
@@ -93,8 +127,8 @@ Damit der Badge etwas anzeigt, muss also mindestens ein Commit im Repository vor
 
 ## 🧑‍💻 About / Contact Badges
 
-<!-- Passe die E-Mail-Adressen an dein Team an -->
-<!-- Verwende Semikolons (;) zwischen mehreren E-Mails -->
+Passe die E-Mail-Adressen an dein Team an
+Verwende Semikolons (;) zwischen mehreren E-Mails
 ```
 Contact us:  
 [![Team Email](https://img.shields.io/badge/E--Mail-Project_Members-orange?style=flat&logo=mailboxdotorg&logoColor=white)](mailto:vorname.nachname@stud.hslu.ch;andere.person@stud.hslu.ch?subject=Badge%20Template%20Frage&body=Hallo%20Team%2C%0A%0A)

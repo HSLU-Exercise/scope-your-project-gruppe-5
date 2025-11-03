@@ -18,20 +18,19 @@ on:
         required: true
         default: true
 
-  # Automatisch nach Abschluss anderer Workflows
+  # Automatisch nach Abschluss bestimmter Workflows (PFLICHT: 'workflows' angeben!)
   workflow_run:
-    # Erstmal alle Workflows beobachten – wenn das klappt, kannst du es wieder einschränken:
-    # workflows:
-    #   - "Java Matrix Build"
-    #   - "Simple Java CI"
-    #   - "Python Matrix Build"
-    #   - "Simple Python CI"
+    workflows:
+      - "Java Matrix Build"
+      - "Simple Java CI"
+      - "Python Matrix Build"
+      - "Simple Python CI"
     types: [completed]
 
 jobs:
   # -------- DEMO-KNOPF --------
   demo_email:
-    # Wichtig: String-Vergleich, sonst wird der Job übersprungen
+    # Wichtig: Boolean-Input ist ein STRING ('true'/'false'), also als String vergleichen
     if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true' }}
     runs-on: ubuntu-latest
     steps:

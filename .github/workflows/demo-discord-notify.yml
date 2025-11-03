@@ -1,17 +1,30 @@
+# ============================================================
+# 💬 WORKFLOW: Discord CI Alerts and Demo
+# ============================================================
+# ▶ Dieser Workflow kann zwei Dinge:
+# 1️⃣ Manuell (per Knopfdruck) eine Testnachricht an Discord senden.
+# 2️⃣ Automatisch eine Fehlermeldung posten, wenn ein anderer Workflow fehlschlägt.
+# ============================================================
+
 name: "Discord CI Alerts and Demo"
 
+# ------------------------------------------------------------
+# 📅 WANN soll der Workflow starten?
+# ------------------------------------------------------------
 on:
+  # 1️⃣ Manueller Start über den "Run workflow"-Knopf.
   workflow_dispatch:
     inputs:
-      mode:
+      mode: # -> Wähle, welche Demo du starten willst
         description: "Mode: test or fail or success"
         required: true
         default: "test"
-      note:
+      note: # -> Optionaler Kommentartext, wird in Discord angezeigt
         description: "Optional note"
         required: false
         default: ""
 
+  # 2️⃣ Automatischer Start, wenn diese Workflows abgeschlossen sind.
   workflow_run:
     workflows:
       - "Java Matrix Build"
@@ -19,42 +32,67 @@ on:
       - "Python Matrix Build"
       - "Simple Python CI"
     types:
-      - completed
+      - completed  # -> Löst aus, wenn einer dieser Workflows fertig ist (egal ob erfolgreich oder fehlerhaft).
 
+# ------------------------------------------------------------
+# ⚙️ JOBS - Was der Workflow tut
+# ------------------------------------------------------------
 jobs:
   notify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # -> Führt die Schritte auf einer Ubuntu-Maschine in der Cloud aus.
+
     steps:
+      # ======================================================
+      # 🧪 1. MANUELLE DEMO-NACHRICHTEN (Knopfdruck)
+      # ======================================================
+
+      # --- Testnachricht (neutral) ---
       - name: Demo test message
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'test' }}
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: "Webhook test (manual). Repo: ${{ github.repository }} Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} Note: ${{ github.event.inputs.note }}"
+          username: "CI Notifier"
+          embed-title: "ℹ️ Webhook Test"
+          embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          embed-description: "Repository: `${{ github.repository }}`  \nRun: [Open Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})  \nNote: `${{ github.event.inputs.note }}`"
+          embed-color: 3447003  # blau
 
+      # --- Fehler-Demo (rote Meldung) ---
       - name: Demo fail style
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'fail' }}
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          embed-title: "DEMO - CI failed"
-          embed-description: "Repo: ${{ github.repository }} Branch: ${{ github.ref_name }} Commit: ${{ github.sha }} Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} Note: ${{ github.event.inputs.note }}"
-          embed-color: 15548997
+          username: "CI Notifier"
+          embed-title: "❌ DEMO - CI failed"
+          embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          embed-description: "Repo: `${{ github.repository }}`  \nBranch: `${{ github.ref_name }}`  \nCommit: `${{ github.sha }}`  \n[Open Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})  \nNote: `${{ github.event.inputs.note }}`"
+          embed-color: 15548997  # rot
 
+      # --- Erfolgs-Demo (grüne Meldung) ---
       - name: Demo success style
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'success' }}
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          embed-title: "DEMO - CI success"
-          embed-description: "Repo: ${{ github.repository }} Branch: ${{ github.ref_name }} Commit: ${{ github.sha }} Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} Note: ${{ github.event.inputs.note }}"
-          embed-color: 5763719
+          username: "CI Notifier"
+          embed-title: "✅ DEMO - CI success"
+          embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          embed-description: "Repo: `${{ github.repository }}`  \nBranch: `${{ github.ref_name }}`  \nCommit: `${{ github.sha }}`  \n[Open Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})  \nNote: `${{ github.event.inputs.note }}`"
+          embed-color: 5763719  # grün
 
+      # ======================================================
+      # ⚠️ 2. AUTOMATISCHER FEHLER-ALARM (workflow_run)
+      # ======================================================
       - name: Auto alert on failure
+        # -> Wird nur ausgeführt, wenn ein überwachter Workflow fehlschlägt.
         if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success' }}
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          embed-title: "CI failed - ${{ github.event.workflow_run.name }}"
-          embed-description: "Repo: ${{ github.repository }} Branch: ${{ github.event.workflow_run.head_branch }} Commit: ${{ github.event.workflow_run.head_sha }} Run: ${{ github.event.workflow_run.html_url }}"
-          embed-color: 15548997
+          username: "CI Notifier"
+          embed-title: "❌ CI failed - ${{ github.event.workflow_run.name }}"
+          embed-url: "${{ github.event.workflow_run.html_url }}"
+          embed-description: "Repository: `${{ github.repository }}`  \nBranch: `${{ github.event.workflow_run.head_branch }}`  \nCommit: `${{ github.event.workflow_run.head_sha }}`  \n[Open Run](${{ github.event.workflow_run.html_url }})  \n> Bitte prüfe die Logs im Actions-Run."
+          embed-color: 15548997  # rot

@@ -1,57 +1,107 @@
-name: Email Notification (TEST)
+name: CI Email Alerts and Demo
 
 on:
-  workflow_dispatch:  # manuell starten
+  # 1) Manuell per Button starten (für Demo/tests)
+  workflow_dispatch:
+    inputs:
+      send_to:               # wohin die Mail gehen soll
+        description: "Empfänger: me (nur ich) oder class (ganze Klasse)"
+        required: true
+        default: "me"
+      note:                  # optionaler Hinweistext in der Mail
+        description: "Optionaler Hinweis in der E-Mail"
+        required: false
+        default: ""
+      force:
+        description: "Auch ohne Fehler senden? (Demo)"
+        type: boolean
+        required: true
+        default: true
+
+  # 2) Automatisch reagieren, wenn diese Workflows fertig sind
+  #    (wir filtern später nur 'failure')
+  workflow_run:
+    workflows:
+      - "Java Matrix Build"
+      - "Simple Java CI"
+      - "Python Matrix Build"
+      - "Simple Python CI"
+    types:
+      - completed
 
 jobs:
-  build:
+  # -------- DEMO-KNOPF: schickt sofort eine Testmail --------
+  demo_email:
+    # läuft NUR beim manuellen Start
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force == true }}
     runs-on: ubuntu-latest
     steps:
-      - name: Simulate a failure
-        run: exit 1   # absichtlicher Fehler, um Benachrichtigung zu testen
+      - name: Empfänger festlegen
+        # wir schreiben die Empfänger in eine Umgebungsvariable RECIPIENTS
+        run: |
+          if [ "${{ github.event.inputs.send_to }}" = "class" ]; then
+            echo "RECIPIENTS=${{ vars.CLASS_EMAILS }}" >> $GITHUB_ENV
+          else
+            echo "RECIPIENTS=${{ vars.MY_EMAIL }}" >> $GITHUB_ENV
+          fi
 
-  notify_email:
-    needs: build
-    if: failure()
+      - name: Test-Mail senden (Gmail über SMTP/SSL)
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}   # smtp.gmail.com
+          server_port: ${{ secrets.SMTP_PORT }}       # 465 (SSL)
+          username: ${{ secrets.SMTP_USER }}          # hslu.ci.demo@gmail.com
+          password: ${{ secrets.SMTP_PASS }}          # 16-stell. App-Passwort
+          secure: true                                # SSL aktiv (für Port 465)
+          starttls: false                             # bei SSL/465: false
+          from: ${{ secrets.SMTP_FROM }}              # muss = Gmail-User sein
+          to: ${{ env.RECIPIENTS }}                   # Empfänger aus Schritt oben
+          subject: "✅ Demo-Mail von ${{ github.repository }}"
+          body: |
+            Das ist eine DEMO-E-Mail aus GitHub Actions.
+
+            Repository: ${{ github.repository }}
+            Workflow: ${{ github.workflow }}
+            Manuell gestartet von: ${{ github.actor }}
+            Hinweis: ${{ github.event.inputs.note }}
+
+            Aktueller Run:
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  # -------- AUTO-ALARM BEI FEHLERN IN ANDEREN WORKFLOWS --------
+  notify_on_failure:
+    # läuft NUR, wenn wir über workflow_run ausgelöst wurden UND der andere Workflow fehlgeschlagen ist
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Send Email Notification
+      - name: Empfänger für Alarm festlegen
+        # zuerst nur an dich; wenn du auf "class" umstellen willst, ändere hier MY_EMAIL -> CLASS_EMAILS
+        run: |
+          echo "RECIPIENTS=${{ vars.MY_EMAIL }}" >> $GITHUB_ENV
+
+      - name: Fehlermail senden (Gmail über SMTP/SSL)
         uses: dawidd6/action-send-mail@v4
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
           server_port: ${{ secrets.SMTP_PORT }}
           username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASS }}
-          secure: true           # SSL aktiv
-          starttls: false        # nur für Port 465
+          secure: true
+          starttls: false
           from: ${{ secrets.SMTP_FROM }}
-          to: ${{ vars.TEAM_EMAILS }}
-          subject: "❌ Demo Build Failed in ${{ github.repository }}"
+          to: ${{ env.RECIPIENTS }}
+          subject: "❌ CI-Fehler in ${{ github.event.workflow_run.name }} @ ${{ github.repository }}"
           body: |
-            This is a demo notification from GitHub Actions.
+            Ein CI-Workflow ist fehlgeschlagen.
 
             Repository: ${{ github.repository }}
-            Workflow: ${{ github.workflow }}
-            Branch: ${{ github.ref_name }}
-            Commit: ${{ github.sha }}
-            Actor: ${{ github.actor }}
+            Workflow:  ${{ github.event.workflow_run.name }}
+            Branch:    ${{ github.event.workflow_run.head_branch }}
+            Commit:    ${{ github.event.workflow_run.head_sha }}
+            Auslöser:  ${{ github.event.workflow_run.actor.login }}
 
-            View logs:
-            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Logs & Details:
+            ${{ github.event.workflow_run.html_url }}
 
-  notify_discord:
-    needs: build
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Notify Discord
-        uses: Ilshidur/action-discord@v3
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message: |
-            ❌ **Demo Build failed**
-            Repository: ${{ github.repository }}
-            Workflow: ${{ github.workflow }}
-            Branch: ${{ github.ref_name }}
-            Actor: ${{ github.actor }}
-            ▶ Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Hinweis:
+            Du kannst die Empfänger-Liste in Repo-Settings → Variables ändern (MY_EMAIL / CLASS_EMAILS).

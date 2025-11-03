@@ -23,4 +23,7 @@ GitHub aktualisiert sie automatisch nach jedem Workflow-Run.
 [![Java Matrix Build](https://github.com/OWNER/REPO/actions/workflows/java-matrix.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/java-matrix.yml)
 [![Simple Java CI](https://github.com/OWNER/REPO/actions/workflows/java-simple.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/java-simple.yml)
 [![Python Matrix Build](https://github.com/OWNER/REPO/actions/workflows/python-matrix.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/python-matrix.yml)
-[![Simple Python CI](https://github.com/OWNER/REPO/actions/workflows/python-simple.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/python-simple.yml)
+[![Simple Python CI](https://github.com/OWNER/REPO/actions/workflows/python-simple.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/python-simple.yml)```
+
+### 💡 Beispiel unserer Gruppe:
+

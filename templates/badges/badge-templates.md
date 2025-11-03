@@ -26,6 +26,8 @@ Beispiel unserer Gruppe
 
 [![Java Matrix Build](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/java-matrix.yml/badge.svg)](https://github.com/HSLU-Exercise/scope-your-project-gruppe-5/actions/workflows/java-matrix.yml)
 
+---
+
 ## 📊 Repository Stats Badges
 
 Diese Badges zeigen Informationen über das Repository an – z. B. Lizenz, Releases, Aktivität, Downloads oder Sterne.

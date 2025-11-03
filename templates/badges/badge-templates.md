@@ -16,8 +16,8 @@ Sie helfen, auf einen Blick den Zustand und die Aktivität eines Projekts zu erk
 Diese Badges zeigen, ob dein Workflow erfolgreich durchläuft (`passing`) oder fehlschlägt (`failing`).  
 GitHub aktualisiert sie automatisch nach jedem Workflow-Run.
 
-<!-- Ersetze OWNER und REPO durch deinen GitHub-Namen -->
-<!-- Ersetze die Workflow-Dateien (z. B. java-matrix.yml) mit deinen eigenen CI-Dateien -->
+Ersetze OWNER und REPO durch deinen GitHub-Namen.
+Ersetze die Workflow-Dateien (z. B. java-matrix.yml) mit deinen eigenen CI-Dateien.
 ```markdown
 
 [![Java Matrix Build](https://github.com/OWNER/REPO/actions/workflows/java-matrix.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/java-matrix.yml)
@@ -38,21 +38,46 @@ GitHub aktualisiert sie automatisch nach jedem Workflow-Run.
 Diese Badges zeigen wichtige Informationen über dein Repository an –
 zum Beispiel Lizenz, Releases, Commits, Downloads oder Sterne ⭐️.
 
-<!-- Ersetze OWNER und REPO -->
-<!-- Du kannst Farbe und Stil mit ?style=...&color=... anpassen -->
+Ersetze OWNER und REPO
+Du kannst Farbe und Stil mit ?style=...&color=... anpassen
 
 ### License 
-Damit du es klickbar machen kannst, muss du eine LICENSE Datei in deinem Repository im main hinzufügen.  
+Damit dein Lizenz-Badge anklickbar ist, musst du eine Datei namens LICENSE im Hauptverzeichnis (main) deines Repositories anlegen.
+Diese Datei benötigt keine Dateiendung.
+
+Auf der folgenden Webseite findest du verschiedene Open-Source-Lizenzen (z. B. MIT, Apache, GPL), die du direkt verwenden kannst:
+🔗 https://choosealicense.com
 ```
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/OWNER/REPO/blob/main/LICENSE)
 ```
+### Release 
+Damit dein Release-Badge korrekt angezeigt wird, musst du mindestens ein Release in deinem Repository erstellen.
+Ein Release veröffentlichst du auf GitHub, indem du oben auf “Releases” → “Create a new release” klickst.
+Vergib eine Versionsnummer (z. B. v1.0.0) und optional eine Beschreibung deiner Änderungen.
+Sobald das Release veröffentlicht ist, zeigt der Badge automatisch die aktuelle Version an.
 
-
+Weitere Informationen findest du in der GitHub-Dokumentation:
+🔗 https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases
 ```
-
-[![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/OWNER/REPO/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/OWNER/REPO?style=flat&color=blue)](https://github.com/OWNER/REPO/releases)
+```
+### Contributors 
+Der Contributors-Badge zeigt automatisch alle Personen an, die im Repository mitgewirkt haben.
+GitHub erkennt Mitwirkende anhand ihrer Commits, Pull Requests oder Code-Änderungen.
+Sobald ein Benutzer mindestens einen Beitrag geleistet hat, wird er im Contributors-Badge und auf der Seite
+“Insights → Contributors” angezeigt.
+Der Badge aktualisiert sich automatisch, sobald neue Mitwirkende hinzukommen.
+```
 [![Contributors](https://img.shields.io/github/contributors/OWNER/REPO?style=flat&color=blue)](https://github.com/OWNER/REPO/graphs/contributors)
+```
+### Commits
+Der Commits-Badge zeigt die Anzahl der Commits (Änderungen),
+die innerhalb eines bestimmten Zeitraums im Repository gemacht wurden.
+Standardmäßig wird beim Badge commit-activity/y die jährliche Commit-Aktivität angezeigt.
+Es gibt auch Varianten für Wochen (/w) oder Monate (/m).
+Der Badge aktualisiert sich automatisch, sobald neue Commits auf den Branch (z. B. main) gepusht werden.
+Damit der Badge etwas anzeigt, muss also mindestens ein Commit im Repository vorhanden sein.
+```
 [![Commits](https://img.shields.io/github/commit-activity/y/OWNER/REPO?style=flat&color=blue)](https://github.com/OWNER/REPO/graphs/commit-activity)
 [![Last commit](https://img.shields.io/github/last-commit/OWNER/REPO?style=flat&color=blue)](https://github.com/OWNER/REPO/graphs/commit-activity)
 [![Downloads](https://img.shields.io/github/downloads/OWNER/REPO/total?style=flat&color=blue)](https://github.com/OWNER/REPO/releases)

@@ -1,5 +1,5 @@
 # Function to add two numbers
-def add(x, y): # ADD BACK THE COMMA
+def add(x y): # COMMA MISSING FOR DEMO PURPOSES
     return x + y
 
 

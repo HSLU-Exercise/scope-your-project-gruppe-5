@@ -10,6 +10,8 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    needs: []
+    if: always()
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,10 +27,11 @@ jobs:
       - name: Run Flake8
         working-directory: ./python
         run: flake8 simple_calculator.py
-        continue-on-error: true
 
   test:
     runs-on: ubuntu-latest
+    needs: []
+    if : always()
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

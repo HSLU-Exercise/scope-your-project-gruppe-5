@@ -32,7 +32,10 @@ jobs:
       - name: Run Flake8
         working-directory: ./python
         run: |
-          flake8 simple_calculator.py --format="%(path)s:%(row)d:%(col)d:%(code)s:%(text)s" > flake8-report.txt 2>&1 || (echo "Flake8 failed" > flake8-report.txt)
+          flake8 simple_calculator.py --format="%(path)s:%(row)d:%(col)d:%(code)s:%(text)s" > flake8-report.txt 2>&1
+          if [ ! -s flake8-report.txt ]; then
+            echo "No linting issues found" > flake8-report.txt
+          fi
         shell: bash
       - name: Upload Flake8 report
         if: always()

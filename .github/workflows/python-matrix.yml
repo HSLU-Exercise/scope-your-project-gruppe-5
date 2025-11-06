@@ -32,10 +32,7 @@ jobs:
       - name: Run Flake8
         working-directory: ./python
         run: |
-          flake8 simple_calculator.py --format=%(path)s:%(row)d:%(col)d:%(code)s:%(text)s > flake8-report.txt || true
-          if [ ! -s flake8-report.txt ]; then
-            echo "No linting issues found" > flake8-report.txt
-          fi
+          flake8 simple_calculator.py --format="%(path)s:%(row)d:%(col)d:%(code)s:%(text)s" > flake8-report.txt 2>&1 || (echo "Flake8 failed" > flake8-report.txt)
         shell: bash
       - name: Upload Flake8 report
         if: always()
@@ -47,7 +44,7 @@ jobs:
 
   test:
     runs-on: ${{ matrix.os }}
-    needs: lint
+    needs: []
     if: always()
     strategy:
       matrix:

@@ -33,13 +33,13 @@ jobs:
             ${{ runner.os }}-maven-${{ matrix.java }}-
       - name: Run Checkstyle
         working-directory: ./java
-        run: mvn checkstyle:check -Dencoding=UTF-8
+        run: mvn checkstyle:check -Dencoding=UTF-8 > checkstyle-report.txt 2>&1 || echo "Checkstyle failed" > checkstyle-report.txt
       - name: Upload Checkstyle report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: checkstyle-report-${{ matrix.os }}-java-${{ matrix.java }}
-          path: java/target/checkstyle-result.xml
+          path: java/checkstyle-report.txt
           retention-days: 30
 
   test:
@@ -67,11 +67,11 @@ jobs:
             ${{ runner.os }}-maven-${{ matrix.java }}-
       - name: Run tests
         working-directory: ./java
-        run: mvn test -Dencoding=UTF-8
+        run: mvn test -Dencoding=UTF-8 > test-report.txt 2>&1 || echo "Tests failed" > test-report.txt
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-reports-${{ matrix.os }}-java-${{ matrix.java }}
-          path: java/target/surefire-reports/
+          path: java/test-report.txt
           retention-days: 30

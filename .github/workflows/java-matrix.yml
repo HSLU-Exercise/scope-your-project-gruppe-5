@@ -33,7 +33,12 @@ jobs:
             ${{ runner.os }}-maven-${{ matrix.java }}-
       - name: Run Checkstyle
         working-directory: ./java
-        run: mvn checkstyle:check -Dencoding=UTF-8 > checkstyle-report.txt 2>&1 || echo "Checkstyle failed" > checkstyle-report.txt
+        run: |
+          mvn checkstyle:check -Dencoding=UTF-8 > checkstyle-report.txt 2>&1
+          if [ ! -s checkstyle-report.txt ]; then
+            echo "No linting issues found" > checkstyle-report.txt
+          fi
+        shell: bash
       - name: Upload Checkstyle report
         if: always()
         uses: actions/upload-artifact@v4
@@ -67,7 +72,12 @@ jobs:
             ${{ runner.os }}-maven-${{ matrix.java }}-
       - name: Run tests
         working-directory: ./java
-        run: mvn test -Dencoding=UTF-8 > test-report.txt 2>&1 || echo "Tests failed" > test-report.txt
+        run: |
+          mvn test -Dencoding=UTF-8 > test-report.txt 2>&1
+          if [ ! -s test-report.txt ]; then
+            echo "No test failures" > test-report.txt
+          fi
+        shell: bash
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v4

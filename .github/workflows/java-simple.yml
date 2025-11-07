@@ -10,6 +10,8 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    needs: []
+    if: always()
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,10 +23,11 @@ jobs:
       - name: Run Checkstyle
         working-directory: ./java
         run: mvn checkstyle:check
-        continue-on-error: true
 
   test:
     runs-on: ubuntu-latest
+    needs: []
+    if: always()
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

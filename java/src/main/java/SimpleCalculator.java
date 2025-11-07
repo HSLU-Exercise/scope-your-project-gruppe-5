@@ -4,7 +4,7 @@ import java.util.Scanner;
    public class SimpleCalculator {
 
        // Adds two numbers and returns their sum
-       public static double add(double x, double y) {
+       public static double add(double x double y) { // REMOVE COMMA FOR DEMO PURPOSES
            return x + y;
        }
 

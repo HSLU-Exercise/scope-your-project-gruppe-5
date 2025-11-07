@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
       - name: Run Checkstyle
         working-directory: ./java
-        run: mvn checkstyle:check
+        run: mvn checkstyle:check -Dencoding=UTF-8
 
   test:
     runs-on: ubuntu-latest
@@ -38,4 +38,4 @@ jobs:
           distribution: 'temurin'
       - name: Run tests
         working-directory: ./java
-        run: mvn test
+        run: mvn test -Dencoding=UTF-8

@@ -49,6 +49,7 @@ To use our CI setup in your project:
 - [Checkstyle Configuration](https://checkstyle.sourceforge.io/config.html)
 - [Pytest Documentation](https://docs.pytest.org/)
 - [Flake8 Configuration](https://flake8.pycqa.org/en/latest/user/configuration.html)
+- [Flake8 Rules](https://www.flake8rules.com/)
 - [Shields.io (Badges)](https://shields.io/)
 
 ## GitHub Classroom

@@ -14,6 +14,8 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    needs: []
+    if: always()
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,11 +28,12 @@ jobs:
       # Change './java' if your Java files or checkstyle.xml are in a different folder
       - name: Run Checkstyle
         working-directory: ./java
-        run: mvn checkstyle:check
-        continue-on-error: true
+        run: mvn checkstyle:check -Dencoding=UTF-8
 
   test:
     runs-on: ubuntu-latest
+    needs: []
+    if: always()
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -43,4 +46,4 @@ jobs:
       # Change './java' if your Java files are in a different folder
       - name: Run tests
         working-directory: ./java
-        run: mvn test
+        run: mvn test -Dencoding=UTF-8

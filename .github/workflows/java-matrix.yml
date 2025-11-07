@@ -46,7 +46,7 @@ jobs:
         with:
           name: checkstyle-report-${{ matrix.os }}-java-${{ matrix.java }}
           path: java/checkstyle-report.txt
-          retention-days: 30
+          retention-days: 14
 
   test:
     runs-on: ${{ matrix.os }}
@@ -86,4 +86,4 @@ jobs:
         with:
           name: test-reports-${{ matrix.os }}-java-${{ matrix.java }}
           path: java/test-report.txt
-          retention-days: 30
+          retention-days: 14

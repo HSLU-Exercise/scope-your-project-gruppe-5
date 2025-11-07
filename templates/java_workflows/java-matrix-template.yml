@@ -14,11 +14,14 @@ on:
 jobs:
   lint:
     runs-on: ${{ matrix.os }}
+    needs: []
+    if: always()
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
         # Change to your Java versions (e.g., ['17', '21'] for your project)
         java: ['21', '25']
+      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -38,24 +41,31 @@ jobs:
       # Change './java' if your Java files or checkstyle.xml are in a different folder
       - name: Run Checkstyle
         working-directory: ./java
-        run: mvn checkstyle:check
-        continue-on-error: true
-      # Change 'java/target/checkstyle-result.xml' if your report path differs
+        run: |
+          mvn checkstyle:check -Dencoding=UTF-8 > checkstyle-report.txt 2>&1
+          if [ ! -s checkstyle-report.txt ]; then
+            echo "No linting issues found" > checkstyle-report.txt
+          fi
+        shell: bash
+      # Change 'java/checkstyle-report.txt' if your report path differs
       - name: Upload Checkstyle report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: checkstyle-report-${{ matrix.os }}-java-${{ matrix.java }}
-          path: java/target/checkstyle-result.xml
-          retention-days: 30
+          path: java/checkstyle-report.txt
+          retention-days: 14
 
   test:
     runs-on: ${{ matrix.os }}
+    needs: []
+    if: always()
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
         # Change to your Java versions
         java: ['21', '25']
+      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -75,12 +85,17 @@ jobs:
       # Change './java' if your Java files are in a different folder
       - name: Run tests
         working-directory: ./java
-        run: mvn test
-      # Change 'java/target/surefire-reports/' if your report path differs
+        run: |
+          mvn test -Dencoding=UTF-8 > test-report.txt 2>&1
+          if [ ! -s test-report.txt ]; then
+            echo "No test failures" > test-report.txt
+          fi
+        shell: bash
+      # Change 'java/test-report.txt' if your report path differs
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-reports-${{ matrix.os }}-java-${{ matrix.java }}
-          path: java/target/surefire-reports/
-          retention-days: 30
+          path: java/test-report.txt
+          retention-days: 14

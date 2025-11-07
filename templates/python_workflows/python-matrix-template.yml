@@ -14,11 +14,14 @@ on:
 jobs:
   lint:
     runs-on: ${{ matrix.os }}
+    needs: []
+    if: always()
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
         # Change to your Python versions (e.g., ['3.10', '3.11'] for your project)
         python-version: ['3.12', '3.13']
+      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,12 +39,11 @@ jobs:
       - name: Run Flake8
         working-directory: ./python
         run: |
-          flake8 simple_calculator.py --format=text --output-file=flake8-report.txt
+          flake8 simple_calculator.py --format="%(path)s:%(row)d:%(col)d:%(code)s:%(text)s" > flake8-report.txt 2>&1
           if [ ! -s flake8-report.txt ]; then
             echo "No linting issues found" > flake8-report.txt
           fi
         shell: bash
-        continue-on-error: true
       # Change 'python/flake8-report.txt' if your report file path differs
       - name: Upload Flake8 report
         if: always()
@@ -49,15 +51,18 @@ jobs:
         with:
           name: flake8-report-${{ matrix.os }}-python-${{ matrix.python-version }}
           path: python/flake8-report.txt
-          retention-days: 30
+          retention-days: 14
 
   test:
     runs-on: ${{ matrix.os }}
+    needs: []
+    if: always()
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
         # Change to your Python versions (e.g., ['3.10', '3.11'] for your project)
         python-version: ['3.12', '3.13']
+      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -74,12 +79,17 @@ jobs:
       # Change './python' if your Python files are in a different folder
       - name: Run Pytest
         working-directory: ./python
-        run: pytest --junitxml=pytest-report.xml
-      # Change 'python/pytest-report.xml' if your report path differs
+        run: |
+          pytest > pytest-report.txt 2>&1
+          if [ ! -s pytest-report.txt ]; then
+            echo "No test failures" > pytest-report.txt
+          fi
+        shell: bash
+      # Change 'python/pytest-report.txt' if your report path differs
       - name: Upload Pytest report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pytest-report-${{ matrix.os }}-python-${{ matrix.python-version }}
-          path: python/pytest-report.xml
-          retention-days: 30
+          path: python/pytest-report.txt
+          retention-days: 14

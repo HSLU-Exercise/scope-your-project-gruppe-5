@@ -20,7 +20,7 @@ name: "Discord Failure Alerts"
 on:
   # Trigger whenever the following workflows complete
   workflow_run:
-  
+  # Enter the workflow names here under the workflows field. You can find the correct names in each workflow file under the name attribute
     workflows:
       - "Java Matrix Build"
       - "Simple Java CI"

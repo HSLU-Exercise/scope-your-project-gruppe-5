@@ -35,6 +35,10 @@ scope-your-project-gruppe-5/
 - **`python-simple.yml`**: Runs Flake8 to check Python code style and pytest to verify functionality on Python 3.13 in a single Ubuntu environment.
 - **`python-matrix.yml`**: Tests Python code across Python 3.12/3.13 and Ubuntu/Windows, running Flake8 and pytest, uploading lint/test reports as artifacts.
 
+## CI Notification Workflow
+- **`demo-email-notify.yml`**: Sends Gmail SMTP notifications: manual demo email via workflow_dispatch and automatic failure alerts for selected workflows; uses SMTP_* secrets and MY_EMAIL/CLASS_EMAILS variables; includes repo, branch, commit, and run URL.
+- **`demo-email-notify.yml`**: Posts Discord webhook alerts: manual test/fail/success embeds via workflow_dispatch and automatic failure embeds for monitored workflows; uses DISCORD_WEBHOOK secret; embeds include repo, branch, commit, and run URL.
+
 ## Reusing Templates
 To use our CI setup in your project:
 1. Copy workflow templates from `templates/` (e.g., `java-simple-template.yml`, `python-matrix-template.yml`) to your `.github/workflows/` directory. See GitHub Actions Workflows for setup details.

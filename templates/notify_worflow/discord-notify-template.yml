@@ -1,0 +1,71 @@
+# ============================================================
+# 💬 WORKFLOW: Discord Failure Alerts
+# ============================================================
+# This workflow automatically sends a Discord alert whenever
+# selected workflows finish with a non-success result.
+#
+# REQUIREMENTS:
+# 1) Create a Discord Webhook in:
+#    Server Settings → Integrations → Webhooks
+# 2) Save the webhook URL as a GitHub Secret:
+#    DISCORD_WEBHOOK
+#    (Settings → Secrets and variables → Actions → Secrets)
+# ============================================================
+
+name: "Discord Failure Alerts"
+
+# ------------------------------------------------------------
+# 📅 WHEN should this workflow run?
+# ------------------------------------------------------------
+on:
+  # Trigger whenever the following workflows complete
+  workflow_run:
+  
+    workflows:
+      - "Java Matrix Build"
+      - "Simple Java CI"
+      - "Python Matrix Build"
+      - "Simple Python CI"
+    types:
+      - completed  # Fires when the workflow is finished (success or failure)
+
+# ------------------------------------------------------------
+# ⚙️ JOBS — What the workflow does
+# ------------------------------------------------------------
+jobs:
+  discord-alert:
+    runs-on: ubuntu-latest  # Runs on GitHub-hosted Ubuntu
+
+    steps:
+      # ======================================================
+      # ⚠️ 1) AUTOMATIC FAILURE ALERT
+      # ======================================================
+      - name: Send Discord alert on failure
+        # Only run this step if the monitored workflow DID NOT succeed
+        if: ${{ github.event.workflow_run.conclusion != 'success' }}
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          # Secret containing your Discord webhook URL
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+
+          # The name that appears as the webhook sender
+          username: "CI Notifier"
+
+          # Title of the Discord message embed
+          embed-title: "❌ CI failed: ${{ github.event.workflow_run.name }}"
+
+          # Link to the failed workflow run
+          embed-url: "${{ github.event.workflow_run.html_url }}"
+
+          # The actual message content sent to Discord
+          embed-description: >-
+            Repository: `${{ github.repository }}`  
+            Workflow: `${{ github.event.workflow_run.name }}`  
+            Branch: `${{ github.event.workflow_run.head_branch }}`  
+            Commit: `${{ github.event.workflow_run.head_sha }}`  
+            Triggered by: `${{ github.event.workflow_run.actor.login }}`  
+            [Open Run](${{ github.event.workflow_run.html_url }})  
+            > Please review the workflow logs for details.
+
+          # Red color for failure (Discord embed color code)
+          embed-color: 15548997

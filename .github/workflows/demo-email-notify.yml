@@ -1,7 +1,6 @@
 name: CI Email Alerts and Demo
 
 on:
-  # Manuell starten (Demo-Knopf)
   workflow_dispatch:
     inputs:
       send_to:
@@ -17,8 +16,6 @@ on:
         type: boolean
         required: true
         default: true
-
-  # Automatisch nach Abschluss bestimmter Workflows (PFLICHT: 'workflows' angeben!)
   workflow_run:
     workflows:
       - "Java Matrix Build"
@@ -28,9 +25,7 @@ on:
     types: [completed]
 
 jobs:
-  # -------- DEMO-KNOPF --------
   demo_email:
-    # Wichtig: Boolean-Input ist ein STRING ('true'/'false'), also als String vergleichen
     if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -70,9 +65,7 @@ jobs:
             Aktueller Run:
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-  # -------- AUTO-ALARM BEI FEHLERN --------
   notify_on_failure:
-    # Läuft nur, wenn ein anderer Workflow abgeschlossen UND fehlgeschlagen ist
     if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure' }}
     runs-on: ubuntu-latest
     steps:
@@ -85,7 +78,7 @@ jobs:
 
       - name: Empfänger festlegen (zuerst nur du)
         run: echo "RECIPIENTS=${{ vars.MY_EMAIL }}" >> $GITHUB_ENV
-        # Wenn die Klasse dran ist: ersetze oben MY_EMAIL -> CLASS_EMAILS
+    
 
       - name: Fehlermail senden (Gmail über SMTP/SSL)
         uses: dawidd6/action-send-mail@v4

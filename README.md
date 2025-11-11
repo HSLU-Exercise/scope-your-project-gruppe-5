@@ -58,7 +58,7 @@ To use our CI setup in your project:
 - [Flake8 Configuration](https://flake8.pycqa.org/en/latest/user/configuration.html)
 - [Flake8 Rules](https://www.flake8rules.com/)
 - [Shields.io (Badges)](https://shields.io/)
-- [Simple Icons (Bades)](https://simpleicons.org)
+- [SimpleIcons (Badges)](https://simpleicons.org)
 
 ## GitHub Classroom
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/YOGwUpA-)

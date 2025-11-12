@@ -1,6 +1,6 @@
 # Copy to .github/workflows/ (e.g., python-simple.yml) and modify as noted
 # Ensure .flake8-template is copied to your Python folder (e.g., python/.flake8)
-# See README.md for details on how this workflow tests Python code
+# See README.md for details on this workflow
 name: Simple Python CI Template
 
 # Change 'main' to your branch (e.g., 'master' for your main branch)
@@ -13,6 +13,7 @@ on:
 
 jobs:
   lint:
+    # Change os (e.g., 'ubuntu-22.04' or 'windows-2022') for specific testing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,11 +35,12 @@ jobs:
         run: flake8 simple_calculator.py
 
   test:
+    # Change os (e.g., 'ubuntu-22.04' or 'windows-2022') for specific testing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      # Change '3.13' to your Python version
+      # Change '3.13' to your Python version (e.g., '3.11' for Python 3.11 projects)
       - name: Set up Python
         uses: actions/setup-python@v4
         with:

@@ -1,6 +1,6 @@
 # Copy to .github/workflows/ (e.g., java-matrix.yml) and modify as noted
 # Ensure checkstyle-template.xml is copied to your Java folder (e.g., java/checkstyle.xml)
-# See README.md for details on how this workflow tests Java code
+# See README.md for details on this workflow
 name: Java Matrix Build Template
 
 # Change 'main' to your branch (e.g., 'master' for your main branch)
@@ -18,9 +18,11 @@ jobs:
     if: always()
     strategy:
       matrix:
+        # Change OS or versions for specific testing (e.g., ['ubuntu-22.04', 'windows-2022'])
         os: [ubuntu-latest, windows-latest]
         # Change to your Java versions (e.g., ['17', '21'] for your project)
         java: ['21', '25']
+      # Change fail-fast to true to stop on first failure, false to run all
       fail-fast: false
     steps:
       - name: Checkout code
@@ -54,6 +56,7 @@ jobs:
         with:
           name: checkstyle-report-${{ matrix.os }}-java-${{ matrix.java }}
           path: java/checkstyle-report.txt
+          # Change retention-days (e.g., 7 or 30) based on your storage policy
           retention-days: 14
 
   test:
@@ -62,9 +65,11 @@ jobs:
     if: always()
     strategy:
       matrix:
+        # Change OS or versions for specific testing (e.g., ['ubuntu-22.04', 'windows-2022'])
         os: [ubuntu-latest, windows-latest]
-        # Change to your Java versions
+        # Change to your Java versions (e.g., ['17', '21'] for your project)
         java: ['21', '25']
+      # Change fail-fast to true to stop on first failure, false to run all
       fail-fast: false
     steps:
       - name: Checkout code
@@ -98,4 +103,5 @@ jobs:
         with:
           name: test-reports-${{ matrix.os }}-java-${{ matrix.java }}
           path: java/test-report.txt
+          # Change retention-days (e.g., 7 or 30) based on your storage policy
           retention-days: 14

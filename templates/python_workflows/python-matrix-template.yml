@@ -1,6 +1,6 @@
 # Copy to .github/workflows/ (e.g., python-matrix.yml) and modify as noted
 # Ensure .flake8-template is copied to your Python folder (e.g., python/.flake8)
-# See README.md for details on how this workflow tests Python code
+# See README.md for details on this workflow
 name: Python Matrix Build Template
 
 # Change 'main' to your branch (e.g., 'master' for your main branch)
@@ -18,9 +18,11 @@ jobs:
     if: always()
     strategy:
       matrix:
+        # Change OS or versions for specific testing (e.g., ['ubuntu-22.04', 'windows-2022'])
         os: [ubuntu-latest, windows-latest]
         # Change to your Python versions (e.g., ['3.10', '3.11'] for your project)
         python-version: ['3.12', '3.13']
+      # Change fail-fast to true to stop on first failure, false to run all
       fail-fast: false
     steps:
       - name: Checkout code
@@ -51,6 +53,7 @@ jobs:
         with:
           name: flake8-report-${{ matrix.os }}-python-${{ matrix.python-version }}
           path: python/flake8-report.txt
+          # Change retention-days (e.g., 7 or 30) based on your storage policy
           retention-days: 14
 
   test:
@@ -59,9 +62,11 @@ jobs:
     if: always()
     strategy:
       matrix:
+        # Change OS or versions for specific testing (e.g., ['ubuntu-22.04', 'windows-2022'])
         os: [ubuntu-latest, windows-latest]
         # Change to your Python versions (e.g., ['3.10', '3.11'] for your project)
         python-version: ['3.12', '3.13']
+      # Change fail-fast to true to stop on first failure, false to run all
       fail-fast: false
     steps:
       - name: Checkout code
@@ -92,4 +97,5 @@ jobs:
         with:
           name: pytest-report-${{ matrix.os }}-python-${{ matrix.python-version }}
           path: python/pytest-report.txt
+          # Change retention-days (e.g., 7 or 30) based on your storage policy
           retention-days: 14

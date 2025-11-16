@@ -1,4 +1,4 @@
-name: CI Email Alerts and Demo
+name: Email Alerts (Demo)
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ on:
       - "Simple Java CI"
       - "Python Matrix Build"
       - "Simple Python CI"
-    types: [completed]
+    types: completed
 
 jobs:
   demo_email:
@@ -45,7 +45,7 @@ jobs:
       - name: Test-Mail senden (Gmail über SMTP/SSL)
         uses: dawidd6/action-send-mail@v4
         with:
-          server_address: ${{ secrets.SMTP_SERVER }}   # smtp.gmail.com
+          server_address: ${{ secrets.SMTP_SERVER }}  # smtp.gmail.com
           server_port: ${{ secrets.SMTP_PORT }}       # 465 (SSL)
           username: ${{ secrets.SMTP_USER }}          # hslu.ci.demo@gmail.com
           password: ${{ secrets.SMTP_PASS }}          # 16-stell. App-Passwort
@@ -78,7 +78,6 @@ jobs:
 
       - name: Empfänger festlegen (zuerst nur du)
         run: echo "RECIPIENTS=${{ vars.MY_EMAIL }}" >> $GITHUB_ENV
-    
 
       - name: Fehlermail senden (Gmail über SMTP/SSL)
         uses: dawidd6/action-send-mail@v4

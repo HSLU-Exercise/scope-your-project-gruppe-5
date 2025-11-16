@@ -1,52 +1,29 @@
-# ============================================================
-# 💬 WORKFLOW: Discord CI Alerts and Demo
-# ============================================================
-# ▶ This workflow can perform two actions:
-# 1️⃣ Manually send a test message to Discord via the “Run workflow” button.
-# 2️⃣ Automatically post an alert when another workflow fails.
-# ============================================================
+name: Discord Alerts (Demo)
 
-name: "Discord CI Alerts and Demo"
-
-# ------------------------------------------------------------
-# 📅 WHEN should this workflow run?
-# ------------------------------------------------------------
 on:
-  # 1️⃣ Manual trigger via the "Run workflow" button.
   workflow_dispatch:
     inputs:
-      mode: # -> Select which demo mode to trigger
+      mode:
         description: "Mode: test or fail or success"
         required: true
         default: "test"
-      note: # -> Optional note displayed inside the Discord message
+      note:
         description: "Optional note"
         required: false
         default: ""
-
-  # 2️⃣ Automatically triggered when these workflows have completed.
   workflow_run:
     workflows:
       - "Java Matrix Build"
       - "Simple Java CI"
       - "Python Matrix Build"
       - "Simple Python CI"
-    types:
-      - completed  # -> Fires when any of these workflows finish (success or failure).
+    types: completed
 
-# ------------------------------------------------------------
-# ⚙️ JOBS — What this workflow does
-# ------------------------------------------------------------
 jobs:
   notify:
-    runs-on: ubuntu-latest  # -> Executes on a GitHub-hosted Ubuntu runner.
-
+    runs-on: ubuntu-latest
     steps:
-      # ======================================================
-      # 🧪 1. MANUAL DEMO MESSAGES (Run workflow)
-      # ======================================================
-
-      # --- Neutral test message (blue embed) ---
+      # Neutral test message (blue embed)
       - name: Demo test message
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'test' }}
         uses: tsickert/discord-webhook@v7.0.0
@@ -58,7 +35,7 @@ jobs:
           embed-description: "Repository: `${{ github.repository }}`  \nRun: [Open Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})  \nNote: `${{ github.event.inputs.note }}`"
           embed-color: 3447003  # blue
 
-      # --- Failure-style demo (red embed) ---
+      # Failure-style demo (red embed)
       - name: Demo fail style
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'fail' }}
         uses: tsickert/discord-webhook@v7.0.0
@@ -70,7 +47,7 @@ jobs:
           embed-description: "Repo: `${{ github.repository }}`  \nBranch: `${{ github.ref_name }}`  \nCommit: `${{ github.sha }}`  \n[Open Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})  \nNote: `${{ github.event.inputs.note }}`"
           embed-color: 15548997  # red
 
-      # --- Success-style demo (green embed) ---
+      # Success-style demo (green embed)
       - name: Demo success style
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'success' }}
         uses: tsickert/discord-webhook@v7.0.0
@@ -82,11 +59,8 @@ jobs:
           embed-description: "Repo: `${{ github.repository }}`  \nBranch: `${{ github.ref_name }}`  \nCommit: `${{ github.sha }}`  \n[Open Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})  \nNote: `${{ github.event.inputs.note }}`"
           embed-color: 5763719  # green
 
-      # ======================================================
-      # ⚠️ 2. AUTOMATIC FAILURE ALERTS (workflow_run)
-      # ======================================================
+      # Automatic alert on failure of monitored workflows
       - name: Auto alert on failure
-        # -> Runs only if a monitored workflow did NOT succeed.
         if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success' }}
         uses: tsickert/discord-webhook@v7.0.0
         with:

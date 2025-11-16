@@ -34,16 +34,12 @@ jobs:
         with:
           # Secret containing your Discord webhook URL
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-
           # The name that appears as the webhook sender
           username: "CI Notifier"
-
           # Title of the Discord message embed
           embed-title: "❌ CI failed: ${{ github.event.workflow_run.name }}"
-
           # Link to the failed workflow run
           embed-url: "${{ github.event.workflow_run.html_url }}"
-
           # The actual message content sent to Discord
           embed-description: >-
             Repository: `${{ github.repository }}`  
@@ -53,6 +49,5 @@ jobs:
             Triggered by: `${{ github.event.workflow_run.actor.login }}`  
             [Open Run](${{ github.event.workflow_run.html_url }})  
             > Please review the workflow logs for details.
-
           # Red color for failure (Discord embed color code)
           embed-color: 15548997

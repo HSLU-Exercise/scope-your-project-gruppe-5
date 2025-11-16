@@ -1,22 +1,24 @@
 # Add this code to the .github/workflows directory in your repository.
+
 name: CI Email Alerts
 
 on:
   # Trigger automatically when one of the listed workflows is completed
   workflow_run:
-  # Enter the workflow names here under the workflows field. You can find the correct names in each workflow file under the name attribute
+    # Enter your workflow names here
     workflows:
       - "1.Workflow name"
       - "2.Workflow name"
       - "3.Workflow name"
       - "4.Workflow name"
-    types: [completed]
+    # Fires when the workflow is finished (success or failure)
+    types: completed
 
 jobs:
-  notify_on_failure:
+  email-alert:
     # Run only if the triggering workflow has failed
     if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure' }}
-    # Define which OS the workflow should run on by setting the runs-on: value, such as ubuntu-latest, windows-latest, or macos-latest.”
+    # Define which OS the workflow should run on
     runs-on: ubuntu-latest
     steps:
       - name: Set recipients (currently only you)
@@ -25,42 +27,44 @@ jobs:
         # run: echo "RECIPIENTS=${{ vars.CLASS_EMAILS }}" >> $GITHUB_ENV
 
 
-         # Before this step can run, ensure that all required Secrets and
-      # Variables are configured in your repository:
-      #
-      # 1. Create a dedicated Gmail account for CI notifications
-      #    (recommended), e.g. yourproject.ci@gmail.com
-      #
-      # 2. Generate a 16-character App Password under:
-      #    Google Account → Security → App Passwords
-      #
-      # 3. Add the following SECRETS under:
-      #    Settings → Secrets and variables → Actions → Secrets
-      #      - SMTP_SERVER  (e.g. smtp.gmail.com)
-      #      - SMTP_PORT    (e.g. 465 for SSL)
-      #      - SMTP_USER    (Gmail address used to send mail)
-      #      - SMTP_PASS    (Gmail App Password)
-      #
-      # 4. Add the following VARIABLE under:
-      #    Settings → Secrets and variables → Actions → Variables
-      #      - RECIPIENTS   (comma-separated email list)
+        # Before this step can run, ensure that all required Secrets and
+        # Variables are configured in your repository:
+        #
+        # 1. Create a dedicated Gmail account for CI notifications
+        #    (recommended), e.g. yourproject.ci@gmail.com
+        #
+        # 2. Generate a 16-character App Password under:
+        #    Google Account → Security → App Passwords
+        #
+        # 3. Add the following SECRETS under:
+        #    Settings → Secrets and variables → Actions → Secrets
+        #      - SMTP_SERVER  (e.g. smtp.gmail.com)
+        #      - SMTP_PORT    (e.g. 465 for SSL)
+        #      - SMTP_USER    (Gmail address used to send mail)
+        #      - SMTP_PASS    (Gmail App Password)
+        #
+        # 4. Add the following VARIABLE under:
+        #    Settings → Secrets and variables → Actions → Variables
+        #      - RECIPIENTS   (comma-separated email list)
       
       - name: Send failure email (Gmail via SMTP/SSL)
         uses: dawidd6/action-send-mail@v4
         with:
-          server_address: ${{ secrets.SMTP_SERVER }}   # e.g. smtp.gmail.com
-          server_port: ${{ secrets.SMTP_PORT }}       # e.g. 465 (SSL)
-          username: ${{ secrets.SMTP_USER }}          # e.g. hslu.ci.demo@gmail.com
-          password: ${{ secrets.SMTP_PASS }}          # 16-char app password
+          server_address: ${{ secrets.SMTP_SERVER }}  # e.g. smtp.gmail.com
+          server_port: ${{ secrets.SMTP_PORT }}  # e.g. 465 (SSL)
+          username: ${{ secrets.SMTP_USER }}  # e.g. hslu.ci.demo@gmail.com
+          password: ${{ secrets.SMTP_PASS }}  # 16-char app password
           secure: true
           starttls: false
-          from: ${{ secrets.SMTP_FROM }}              # same Gmail user
+          from: ${{ secrets.SMTP_FROM }}  # same Gmail user
           to: ${{ env.RECIPIENTS }}
+
           # This section defines the actual email that will be sent.
           # The 'subject' sets the email title, including the workflow name
           # and repository. The 'body' contains the full message delivered
           # to recipients, including repository, workflow, branch, commit,
           # the user who triggered the run, and a link to the workflow logs
+
           subject: "❌ CI failed: ${{ github.event.workflow_run.name }} @ ${{ github.repository }}"
           body: |
             A CI workflow failed.

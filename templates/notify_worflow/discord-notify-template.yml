@@ -1,47 +1,34 @@
-# ============================================================
-# 💬 WORKFLOW: Discord Failure Alerts
-# ============================================================
-# This workflow automatically sends a Discord alert whenever
-# selected workflows finish with a non-success result.
-#
+# This workflow automatically sends a Discord alert whenever selected workflows finish with a non-success result.
+# Add this code to the .github/workflows directory in your repository.
+
 # REQUIREMENTS:
 # 1) Create a Discord Webhook in:
 #    Server Settings → Integrations → Webhooks
 # 2) Save the webhook URL as a GitHub Secret:
 #    DISCORD_WEBHOOK
 #    (Settings → Secrets and variables → Actions → Secrets)
-# ============================================================
 
-name: "Discord Failure Alerts"
+name: CI Discord Alerts
 
-# ------------------------------------------------------------
-# 📅 WHEN should this workflow run?
-# ------------------------------------------------------------
 on:
-  # Trigger whenever the following workflows complete
+  # Trigger automatically when one of the listed workflows is completed
   workflow_run:
-  # Enter the workflow names here under the workflows field. You can find the correct names in each workflow file under the name attribute
+    # Enter your workflow names here
     workflows:
-      - "Java Matrix Build"
-      - "Simple Java CI"
-      - "Python Matrix Build"
-      - "Simple Python CI"
-    types:
-      - completed  # Fires when the workflow is finished (success or failure)
+      - "1.Workflow name"
+      - "2.Workflow name"
+      - "3.Workflow name"
+      - "4.Workflow name"
+    # Fires when the workflow is finished (success or failure)
+    types: completed
 
-# ------------------------------------------------------------
-# ⚙️ JOBS — What the workflow does
-# ------------------------------------------------------------
 jobs:
   discord-alert:
-    runs-on: ubuntu-latest  # Runs on GitHub-hosted Ubuntu
-
+    # Define which OS the workflow should run on
+    runs-on: ubuntu-latest
     steps:
-      # ======================================================
-      # ⚠️ 1) AUTOMATIC FAILURE ALERT
-      # ======================================================
       - name: Send Discord alert on failure
-        # Only run this step if the monitored workflow DID NOT succeed
+        # Only runs this step if the monitored workflow DID NOT succeed
         if: ${{ github.event.workflow_run.conclusion != 'success' }}
         uses: tsickert/discord-webhook@v7.0.0
         with:
